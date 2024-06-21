@@ -1,0 +1,9 @@
+<h1><%= t('.Edit Task page') %></h1>
+
+
+
+
+<%= render 'form', task: @task , id: 'edit-task'%>
+
+<%= link_to t('common.show'), @task, id: 'update-task'%> |
+<%= link_to t('common.back'), tasks_path, id: 'back' %>
