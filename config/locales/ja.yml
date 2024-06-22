@@ -7,11 +7,9 @@ ja:
         title: タイトル
         content: 内容
         created_at: 作成日時
-      user:
-        name: 名前
-        email: メールアドレス
-        password: パスワード
-        password_confirmation: パスワード（確認）
+  navigation:
+    tasks: タスク一覧
+    new_task: タスク登録
   errors:
     format: "%{attribute}%{message}"
     messages:
@@ -30,6 +28,7 @@ ja:
     destroy: 削除
     back: 戻る
     confirm_destroy: 本当に削除してもよろしいですか？
+    title: タスク登録
   tasks:
     index:
       title: タスク一覧ページ

@@ -11,8 +11,8 @@
 
   <body>
     <ul>
-     <li><%= link_to t('tasks.index.title'), tasks_path, id: "tasks-index"%></li>
-     <li><%= link_to t('tasks.new.title'), new_task_path, id: "new-task"%></li>
+     <li><%= link_to t('navigation.tasks'), tasks_path, id: "tasks-index"%></li>
+     <li><%= link_to t('navigation.new_task'), new_task_path, id: "new-task"%></li>
      <p id="notice"><%= notice %></p>
     </ul>
     <%= yield %>
