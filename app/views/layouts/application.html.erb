@@ -10,6 +10,10 @@
   </head>
 
   <body>
+  <p id="notice"><%= notice %></p>
+   <ul>
+     <li><%= link_to "Tasks Index", tasks_path, id: "tasks-index"%>
+    <li><%= link_to "New Task", new_task_path, id: "new-task"%>
     <%= yield %>
   </body>
 </html>
