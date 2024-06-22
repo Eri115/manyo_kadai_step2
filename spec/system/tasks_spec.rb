@@ -14,7 +14,7 @@ RSpec.describe 'タスク管理機能', type: :system do
 
   describe '一覧表示機能' do
     context '一覧画面に遷移した場合' do
-      it '登録済みのタスク一覧が表示される' do
+      it '登録済みのタスク一覧が作成日時の降順で表示される' do
         #Task.create!(title:'登録１',content: 'タスク登録完了')
         #Task.create!(title:'登録２',content: 'タスク登録完了')
         FactoryBot.create(:task)
@@ -22,6 +22,11 @@ RSpec.describe 'タスク管理機能', type: :system do
 
         binding.irb
         expect(page).to have_content('企画の予算案を作成する。')
+      end
+    end
+    centext '新たにタスクを作成した場合' do
+      it '新しいタスクが一番上に表示される' do
+        
       end
     end
   end

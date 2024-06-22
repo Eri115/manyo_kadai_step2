@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <title><%= yield(:title) || "Default Title" %></title>
     <title>CdpWebManyoTask</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
-  <p id="notice"><%= notice %></p>
-   <ul>
-     <li><%= link_to "Tasks Index", tasks_path, id: "tasks-index"%>
-    <li><%= link_to "New Task", new_task_path, id: "new-task"%>
+    <ul>
+     <li><%= link_to t('tasks.index.title'), tasks_path, id: "tasks-index"%></li>
+     <li><%= link_to t('tasks.new.title'), new_task_path, id: "new-task"%></li>
+     <p id="notice"><%= notice %></p>
+    </ul>
     <%= yield %>
   </body>
 </html>
