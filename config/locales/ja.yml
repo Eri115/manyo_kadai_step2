@@ -9,7 +9,7 @@ ja:
         created_at: 作成日時
   navigation:
     tasks: タスク一覧
-    new_task: タスク登録
+    new_task: タスクを登録する
   errors:
     format: "%{attribute}%{message}"
     messages:
