@@ -20,13 +20,13 @@ RSpec.describe 'タスク管理機能', type: :system do
         FactoryBot.create(:task)
         visit tasks_path
 
-        binding.irb
+
         expect(page).to have_content('企画の予算案を作成する。')
       end
     end
     centext '新たにタスクを作成した場合' do
       it '新しいタスクが一番上に表示される' do
-        
+
       end
     end
   end
