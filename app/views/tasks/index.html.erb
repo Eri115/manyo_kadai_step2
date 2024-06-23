@@ -22,8 +22,9 @@
         <td><%= link_to t('common.destroy'), task, method: :delete, data: { confirm: t('common.confirm_destroy') }, class: "destroy-task"%></td>
       </tr>
     <% end %>
-    <%= paginate @tasks %>
+    
   </tbody>
+   <%= paginate @tasks %>
 </table>
 
 <%= link_to t('common.new'), new_task_path %>
