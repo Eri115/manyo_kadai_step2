@@ -16,7 +16,7 @@ RSpec.describe 'タスク管理機能', type: :system do
     let!(:first_task) { FactoryBot.create(:task, title: 'first_task', created_at: 3.days.ago) }
     let!(:second_task) { FactoryBot.create(:task, title: 'second_task', created_at: 2.days.ago) }
     let!(:third_task) { FactoryBot.create(:task, title: 'third_task', created_at: 1.day.ago) }
-   
+
   
     before do
       visit tasks_path
@@ -31,10 +31,15 @@ RSpec.describe 'タスク管理機能', type: :system do
   
     context '新たにタスクを作成した場合' do
       it '新しいタスクが一番上に表示される' do
+        #新しいタスクをデータベースに作成
         FactoryBot.create(:task, title: 'new_task', content: '新しいタスクの内容', created_at: Time.now)
+
+        #タスク一覧ページにアクセス
         visit tasks_path
-    
-        task_titles = all('.task-title').map{ |element| element.find('td:first-child').text.strip }
+
+        #すべてのタスクのタイトルをall()を取得し、そのうちの最初のタイトルが 'new_task' であることを期待
+        #mapのtask_titleはall('.task-title')でとってきたやつが格納されていて|task_title| に順番に格納されていく仕組み
+        task_titles = all('.task-title').map{ |task_title| task_title.find('td:first-child').text }#要素のテキスト内容を取得
         expect(task_titles.first).to eq 'new_task'
       end
     end
