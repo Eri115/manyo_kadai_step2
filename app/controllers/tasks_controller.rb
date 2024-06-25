@@ -1,10 +1,23 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
 
-  def index
-    @tasks = Task.order(created_at: :desc).page(params[:page]).per(10)
     #@tasks =Task.page(params[:page]).per(10)
     #created_at 列（タスクが作成された日時を表す列）を基準に降順（DESC）で並べ替えるメソッド
+  def index
+    @tasks = Task.order(created_at: :desc)
+                 .page(params[:page])
+                 .per(10)
+
+    if params[:sort_deadline_on] #saveメソッドは単一のレコードのみ使える。ここでは複数レコードがあるから使えない
+      @tasks = Task.order(deadline_on: :asc)
+                   .page(params[:page])
+                   .per(10)
+    end
+
+    #if @tasks = Task.all.order(deadline_on: :asc)
+                       #.page(params[:page])
+                       #.per(10)                  
+   # end
   end
 
   def new
@@ -12,10 +25,10 @@ class TasksController < ApplicationController
   end
 
   def create
-    @task = Task.new(task_params)
+    #binding.irb
+    @task = Task.new(task_params) 
 
     if @task.save
-      
       redirect_to tasks_path, notice: t('.created')
     else
       render :new
@@ -33,7 +46,6 @@ class TasksController < ApplicationController
       #flash[:notice] = 'Task was successfully updated.'
       redirect_to task_path(@task),notice: t('.updated')
     else
-
       render :edit
     end
   end
@@ -46,11 +58,20 @@ class TasksController < ApplicationController
 
   private
 
-  def task_params
-    params.require(:task).permit(:title, :content)
-  end
-
   def set_task
     @task = Task.find(params[:id])
   end
+
+
+  def task_params
+     params.require(:task).permit(:title, :content, :deadline_on, :priority, :status,:sort_deadline_on)
+    #binding.irb
+    #Parameters {"title"=>"", "content"=>"", "deadline_on"=>"2024-06-24", "priority"=>"0", "status"=>"0"} permitted: true>
+  end
+
+  def sort_params
+    params.require(:tasks).permit(:sort_deadline_on, :priority) 
+    binding.irb
+  end
 end
+  
