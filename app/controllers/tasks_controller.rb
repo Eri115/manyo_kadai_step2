@@ -80,7 +80,8 @@ class TasksController < ApplicationController
     #binding.irb
     #Parameters {"title"=>"", "content"=>"", "deadline_on"=>"2024-06-24", "priority"=>"0", "status"=>"0"} permitted: true>
   end
-end
   
-def search_params
-  params.require(:search).permit(:title, :status)
+  def search_params
+    params.fetch(:search, {}).permit(:title, :status)
+  end
+end

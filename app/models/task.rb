@@ -21,7 +21,7 @@ class Task < ApplicationRecord
   scope :search, -> (search_params) do
     return all if search_params.blank?
     #search: 指定された検索パラメータに基づいてタイトル（title）とステータス（status）でフィルタリングするスコープ。
-    #search_paramsが空であれば、全てのタスクを返します。
+    #search_paramsが空であれば、全てのタスクを返す。
     where(title: search_params[:title], status: search_params[:status])
   end
 end
