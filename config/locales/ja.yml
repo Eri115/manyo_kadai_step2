@@ -6,8 +6,8 @@ ja:
         medium: 中
         high: 高
       status:
-        waiting: 未完了
-        working: 作業中
+        waiting: 未着手
+        working: 着手中
         completed: 完了
   activerecord:
     models:

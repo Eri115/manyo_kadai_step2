@@ -24,5 +24,4 @@ ActiveRecord::Schema.define(version: 2024_06_24_032840) do
     t.integer "priority", null: false
     t.integer "status", null: false
   end
-
 end
