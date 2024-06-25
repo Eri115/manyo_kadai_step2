@@ -3,34 +3,38 @@ class TasksController < ApplicationController
 
    
     #created_at 列（タスクが作成された日時を表す列）を基準に降順（DESC）で並べ替えるメソッド
-  def index
-    @tasks = Task.order(created_at: :desc)
-                 .page(params[:page])
-                 .per(10)
-
-    if params[:sort_deadline_on] #saveメソッドは単一のレコードのみ使える。ここでは複数レコードがあるから使えない
-       @tasks = Task.order(deadline_on: :asc) #params[:sort_deadline_on]に値があれば、終了期限でソートした値を返し
-                    .page(params[:page])
-                    .per(10)
-    end
-
-    if @tasks = Task.all.order(deadline_on: :asc) #params[:sort_deadline_on]に値がなければ、Tasks.allなどで取り出した値を返す。）
-                        .page(params[:page])
-                        .per(10)                  
-    end
-
-    if params[:search].present? #パラメータにタイトルとステータスの両方があった場合
-      if params[:search][:title].present? && params[:search][:status].present?
-        @tasks = @tasks.where(title: params[:search][:title], status: params[:search][:status])
-
-      elsif params[:search][:title].present? #パラメータにタイトルのみがあった場合
-            @tasks = @tasks.where(title: params[:search][:title])
-
-      elsif @tasks = @tasks.where(status: params[:search][:status])#パラメータにステータスのみがあった場合
+    def index
+      @tasks = Task.all
+  
+      # Sort by created_at by default
+      @tasks = @tasks.order(created_at: :desc)
+  
+      # Sort by deadline_on if requested
+      if params[:sort_deadline_on].present?
+        @tasks = @tasks.order(deadline_on: :asc)
       end
+  
+      # Sort by priority if requested
+      if params[:sort_priority].present?
+        @tasks = @tasks.order(priority: :desc)
+      end
+  
+      # Apply search filters
+      if params[:search].present?
+        search_params = params[:search].permit(:title, :status, :priority)
+        if search_params[:title].present?
+          @tasks = @tasks.where('title LIKE ?', "%#{search_params[:title]}%")
+        end
+        if search_params[:status].present?
+          @tasks = @tasks.where(status: search_params[:status])
+        end
+        if search_params[:priority].present?
+          @tasks = @tasks.where(priority: search_params[:priority])
+        end
+      end
+  
+      @tasks = @tasks.page(params[:page]).per(10)
     end
-  end
-
   
   def new
     @task = Task.new
