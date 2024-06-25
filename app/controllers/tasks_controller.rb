@@ -19,12 +19,12 @@ class TasksController < ApplicationController
                         .per(10)                  
     end
 
-    if params[:search].present?
-      if #パラメータにタイトルとステータスの両方があった場合
-      elsif #パラメータにタイトルのみがあった場合
-      elsif #パラメータにステータスのみがあった場合
-      end
-    end
+    #if params[:search].present?
+      #if #パラメータにタイトルとステータスの両方があった場合
+      #elsif #パラメータにタイトルのみがあった場合
+      #elsif #パラメータにステータスのみがあった場合
+      #end
+    #end
 
       
   end
