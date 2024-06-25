@@ -29,10 +29,9 @@ class TasksController < ApplicationController
       elsif @tasks = @tasks.where(status: params[:search][:status])#パラメータにステータスのみがあった場合
       end
     end
-
-      
   end
 
+  
   def new
     @task = Task.new
   end

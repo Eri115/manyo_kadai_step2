@@ -11,12 +11,12 @@ class Task < ApplicationRecord
 
   scope :deadline_asc_sort, -> { order(deadline_on: :asc) }
   scope :priority_high_sort, -> { order(priority: :desc) }
-  scope :created_at_sort, -> { order(created_at: :desc) }
+  scope :created_at_newest_first, -> { order(created_at: :desc) }
 
   scope :search, -> (search_params) do
-    return if search_params.blank?
-
-    title_and_status_is(search_params[:title], search_params[:status])
+    return all if search_params.blank?
+    
+    where(title: search_params[:title], status: search_params[:status])
   end
 end
 
