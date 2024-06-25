@@ -19,12 +19,16 @@ class TasksController < ApplicationController
                         .per(10)                  
     end
 
-    #if params[:search].present?
-      #if #パラメータにタイトルとステータスの両方があった場合
-      #elsif #パラメータにタイトルのみがあった場合
-      #elsif #パラメータにステータスのみがあった場合
-      #end
-    #end
+    if params[:search].present? #パラメータにタイトルとステータスの両方があった場合
+      if params[:search][:title].present? && params[:search][:status].present?
+        @tasks = @tasks.where(title: params[:search][:title], status: params[:search][:status])
+
+      elsif params[:search][:title].present? #パラメータにタイトルのみがあった場合
+            @tasks = @tasks.where(title: params[:search][:title])
+
+      elsif @tasks = @tasks.where(status: params[:search][:status])#パラメータにステータスのみがあった場合
+      end
+    end
 
       
   end
