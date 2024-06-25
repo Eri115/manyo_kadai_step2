@@ -20,6 +20,7 @@ class TasksController < ApplicationController
     end
 
     if params[:search].present?
+    end
       
   end
 
