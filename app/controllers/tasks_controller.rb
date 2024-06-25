@@ -82,3 +82,5 @@ class TasksController < ApplicationController
   end
 end
   
+def search_params
+  params.require(:search).permit(:title, :status)
