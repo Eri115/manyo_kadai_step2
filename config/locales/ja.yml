@@ -30,7 +30,9 @@ ja:
       taken: はすでに使用されています
   helpers:
     label:
-     session:
+      search: 
+        title: タイトル
+        status: ステータス
     submit:
       create: 登録する
       update: 更新する
