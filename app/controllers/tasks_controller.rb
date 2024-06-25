@@ -20,7 +20,12 @@ class TasksController < ApplicationController
     end
 
     if params[:search].present?
+      if #パラメータにタイトルとステータスの両方があった場合
+      elsif #パラメータにタイトルのみがあった場合
+      elsif #パラメータにステータスのみがあった場合
+      end
     end
+
       
   end
 
@@ -71,11 +76,6 @@ class TasksController < ApplicationController
      params.require(:task).permit(:title, :content, :deadline_on, :priority, :status,:sort_deadline_on)
     #binding.irb
     #Parameters {"title"=>"", "content"=>"", "deadline_on"=>"2024-06-24", "priority"=>"0", "status"=>"0"} permitted: true>
-  end
-
-  def sort_params
-    params.require(:tasks).permit(:sort_deadline_on, :priority) 
-    binding.irb
   end
 end
   
