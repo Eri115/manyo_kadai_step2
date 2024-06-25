@@ -34,6 +34,7 @@ ja:
     submit:
       create: 登録する
       update: 更新する
+      search: 検索
   common:
     new: 新規作成
     show: 詳細

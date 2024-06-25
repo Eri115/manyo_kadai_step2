@@ -18,6 +18,9 @@ class TasksController < ApplicationController
                         .page(params[:page])
                         .per(10)                  
     end
+
+    if params[:search].present?
+      
   end
 
   def new
