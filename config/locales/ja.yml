@@ -1,4 +1,14 @@
 ja:
+  enums:
+    task:
+      priority:
+        low: 低
+        medium: 中
+        high: 高
+      status:
+        waiting: 未着手
+        working: 着手中
+        completed: 完了
   activerecord:
     models:
       task: タスク
@@ -7,6 +17,9 @@ ja:
         title: タイトル
         content: 内容
         created_at: 作成日時
+        deadline_on: 終了期限
+        priority: 優先度
+        status: ステータス
   navigation:
     tasks: タスク一覧
     new_task: タスクを登録する
@@ -17,10 +30,13 @@ ja:
       taken: はすでに使用されています
   helpers:
     label:
-     session:
+      search: 
+        title: タイトル
+        status: ステータス
     submit:
       create: 登録する
       update: 更新する
+      search: 検索
   common:
     new: 新規作成
     show: 詳細
