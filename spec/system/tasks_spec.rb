@@ -75,7 +75,7 @@ RSpec.describe 'タスク管理機能', type: :system do
       # allメソッドを使って複数のテストデータの並び順を確認する
     end
   end
-
+  
   context 'タイトルであいまい検索をした場合' do
     it "検索ワードを含むタスクのみ表示される" do
       fill_in 'search[title]', with: '作成'
