@@ -1,8 +1,8 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
 
-   
-    #created_at 列（タスクが作成された日時を表す列）を基準に降順（DESC）で並べ替えるメソッド
+
+     #created_at 列（タスクが作成された日時を表す列）を基準に降順（DESC）で並べ替えるメソッド
     def index
       @tasks = Task.all
   
@@ -33,6 +33,7 @@ class TasksController < ApplicationController
         @tasks = @tasks.where(priority: search_params[:priority])
         end
       end
+      
   
         @tasks = @tasks.page(params[:page]).per(10)
     end

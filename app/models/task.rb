@@ -17,6 +17,11 @@ class Task < ApplicationRecord
   #created_at_newest_first: 作成日時（created_at）を降順（新しい順）でソートするスコープ。
 
 
+  scope :search_title, ->(query) { where("title LIKE ?", "%#{query}%") }
+  scope :search_status, ->(query) { where(status: query) }
+
+
+
 
   scope :search, -> (search_params) do
     return all if search_params.blank?
