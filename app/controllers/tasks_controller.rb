@@ -6,35 +6,36 @@ class TasksController < ApplicationController
     def index
       @tasks = Task.all
   
-      # Sort by created_at by default
-      @tasks = @tasks.order(created_at: :desc)
-  
-      # Sort by deadline_on if requested
-      if params[:sort_deadline_on].present?
-        @tasks = @tasks.order(deadline_on: :asc)
+      # デフォルトで作成日時で降順にソート
+      @tasks = @tasks.order(created_at: :desc) 
+
+      if params[:sort_deadline_on].present?# 終了期限でソートする場合
+         @tasks = Task.all.order(deadline_on: :asc) #＠tasksだとcreated_atとdeadline_on両方の値が考慮されている
       end
   
-      # Sort by priority if requested
-      if params[:sort_priority].present?
-        @tasks = @tasks.order(priority: :desc)
+      if params[:sort_priority].present? # 優先度でソートする場合
+         @tasks = Task.all.order(priority: :desc)
       end
   
-      # Apply search filters
-      if params[:search].present?
-        search_params = params[:search].permit(:title, :status, :priority)
-        if search_params[:title].present?
-          @tasks = @tasks.where('title LIKE ?', "%#{search_params[:title]}%")
+      if params[:search].present? # 検索フィルターを適用する場合
+         search_params = params[:search].permit(:title, :status, :priority)
+      
+        if search_params[:title].present? #タイトルによる部分一致検索を行う
+            @tasks = @tasks.where('title LIKE ?', "%#{search_params[:title]}%")
         end
-        if search_params[:status].present?
-          @tasks = @tasks.where(status: search_params[:status])
+
+        if search_params[:status].present?  #ステータスによる完全一致検索を行う
+            @tasks = @tasks.where(status: search_params[:status])
         end
-        if search_params[:priority].present?
-          @tasks = @tasks.where(priority: search_params[:priority])
+        
+        if search_params[:priority].present? #優先度による完全一致検索を行う
+        @tasks = @tasks.where(priority: search_params[:priority])
         end
       end
   
-      @tasks = @tasks.page(params[:page]).per(10)
+        @tasks = @tasks.page(params[:page]).per(10)
     end
+
   
   def new
     @task = Task.new
