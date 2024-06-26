@@ -15,6 +15,10 @@
   <%= @task.created_at %>
 </p>
 
+  <strong><%= Task.human_attribute_name(:deadline_on) %>:</strong>
+  <%= @task.deadline_on %>
+</p>
+
   <strong><%= Task.human_attribute_name(:priority) %>:</strong>
   <%= I18n.t("enums.task.priority.#{@task.priority}") %>
 </p>

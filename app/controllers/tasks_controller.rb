@@ -15,7 +15,7 @@ class TasksController < ApplicationController
   
       if params[:sort_priority].present? # 優先度でソートする場合
          @tasks = Task.all.order(priority: :desc, created_at: :desc)
-         binding.irb
+       
       end
   
       if params[:search].present? # 検索フィルターを適用する場合
