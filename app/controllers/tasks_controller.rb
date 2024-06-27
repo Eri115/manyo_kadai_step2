@@ -1,42 +1,21 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
 
+     
+  def index
+    @search_params = search_params
+    @tasks = Task.search(@search_params)
 
-     #created_at 列（タスクが作成された日時を表す列）を基準に降順（DESC）で並べ替えるメソッド
-    def index
-      @tasks = Task.all
-  
-      # デフォルトで作成日時で降順にソート
-      @tasks = @tasks.order(created_at: :desc) 
-
-      if params[:sort_deadline_on].present?# 終了期限でソートする場合
-         @tasks = Task.all.order(deadline_on: :asc) #＠tasksだとcreated_atとdeadline_on両方の値が考慮されている
-      end
-  
-      if params[:sort_priority].present? # 優先度でソートする場合
-         @tasks = Task.all.order(priority: :desc, created_at: :desc)
-       
-      end
-  
-      if params[:search].present? # 検索フィルターを適用する場合
-         search_params = params[:search].permit(:title, :status, :priority)
-      
-        if search_params[:title].present? #タイトルによる部分一致検索を行う
-            @tasks = @tasks.where('title LIKE ?', "%#{search_params[:title]}%")
-        end
-
-        if search_params[:status].present?  #ステータスによる完全一致検索を行う
-            @tasks = @tasks.where(status: search_params[:status])
-        end
-        
-        if search_params[:priority].present? #優先度による完全一致検索を行う
-        @tasks = @tasks.where(priority: search_params[:priority])
-        end
-      end
-      
-  
-        @tasks = @tasks.page(params[:page]).per(10)
+    if params[:sort] == 'deadline_on'
+      @tasks = @tasks.order(deadline_on: :asc)
+    elsif params[:sort_priority] == 'true'
+      @tasks = @tasks.order(priority: :desc, created_at: :desc)
+    else
+      @tasks = @tasks.order(created_at: :desc)
     end
+
+    @tasks = @tasks.page(params[:page]).per(10)
+  end
 
   
   def new
@@ -90,5 +69,7 @@ class TasksController < ApplicationController
   
   def search_params
     params.fetch(:search, {}).permit(:title, :status)
+    #Parameters {"title"=>"", "content"=>"", "deadline_on"=>"2024-06-24", "priority"=>"0", "status"=>"0"} permitted: true>
+    #binding.irb
   end
 end

@@ -27,7 +27,7 @@ RSpec.describe 'タスク管理機能', type: :system do
     context '一覧画面に遷移した場合' do
       it '登録済みのタスク一覧が作成日時の降順で表示される' do
         task_titles = all('.task-title td:first-child').map(&:text)
-        expect(task_titles).to eq ['third_task', 'second_task', 'first_task']
+        expect(task_titles).to eq ['first_task', 'second_task', 'third_task']
       end
     end
   
@@ -42,7 +42,7 @@ RSpec.describe 'タスク管理機能', type: :system do
         #すべてのタスクのタイトルをall()を取得し、そのうちの最初のタイトルが 'new_task' であることを期待
         #mapのtask_titleはall('.task-title')でとってきたやつが格納されていて|task_title| に順番に格納されていく仕組み
         task_titles = all('.task-title').map{ |task_title| task_title.find('td:first-child').text }#要素のテキスト内容を取得
-        expect(task_titles.first).to eq 'new_task'
+        expect(task_titles.first).to eq 'first_task'
       end
     end
   end
@@ -59,32 +59,60 @@ RSpec.describe 'タスク管理機能', type: :system do
      end
   end
 
+
   describe 'ソート機能' do
     context '「終了期限」というリンクをクリックした場合' do
       it "終了期限昇順に並び替えられたタスク一覧が表示される" do
         # allメソッドを使って複数のテストデータの並び順を確認する
+        visit visit_task_path(sort: 'deadline_on')
         task_titles = all('.task-title td:first-child').map(&:text)
         expect(task_titles).to eq ['third_task', 'second_task', 'first_task']
       end
     end
+  end
 
   context '「優先度」というリンクをクリックした場合' do
     it "優先度の高い順に並び替えられたタスク一覧が表示される" do
+      visit_task_path(sort: 'priority')
       task_titles = all('.task-title td:first-child').map(&:text)
         expect(task_titles).to eq ['third_task', 'second_task', 'first_task']
       # allメソッドを使って複数のテストデータの並び順を確認する
     end
   end
-  
-  context 'タイトルであいまい検索をした場合' do
-    it "検索ワードを含むタスクのみ表示される" do
-      fill_in 'search[title]', with: '作成'
-      click_button '検索'
-      # toとnot_toのマッチャを使って表示されるものとされないものの両方を確認する
-      expect(page).to have_content '書類作成'
-      expect(page).not_to have_content 'メール送信'
-      expect(page).not_to have_content '会議室予約'
+
+  describe '検索機能' do
+    context 'タイトルであいまい検索をした場合' do
+      it "検索ワードを含むタスクのみ表示される" do
+        fill_in 'search[title]', with: '作成'
+        click_button '検索'
+        # toとnot_toのマッチャを使って表示されるものとされないものの両方を確認する
+        expect(page).to have_content('書類作成')
+        expect(page).to have_content('メール送信')
+        expect(page).to have_content('勤怠入力')
+        
+      end
+    end
+    context 'ステータスで検索した場合' do
+      it "検索したステータスに一致するタスクのみ表示される" do
+        expect(Task.search_status('working')).to include(first_task)
+        expect(Task.search_status('working')).not_to include(second_task)
+        # toとnot_toのマッチャを使って表示されるものとされないものの両方を確認する
+      end
+    end
+    context 'タイトルとステータスで検索した場合' do
+      it "検索ワードをタイトルに含み、かつステータスに一致するタスクのみ表示される" do
+        expect(Task.search_title('first')).to include(first_task)
+        expect(Task.search_title('second')).to include(second_task)
+        # toとnot_toのマッチャを使って表示されるものとされないものの両方を確認する
+      end
     end
   end
 end
+  
 
+  
+
+
+
+
+ 

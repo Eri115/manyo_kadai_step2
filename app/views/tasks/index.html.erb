@@ -4,7 +4,7 @@
 
 <%= form_with(url: tasks_path, method: "get", local: true, scope: :search) do |form| %>
   <div class="field">
-    <%= form.label :status %>
+   <%= form.label :status %>
     <%= form.select :status, options_for_select(Task.statuses.keys.map { |k| [I18n.t("enums.task.status.#{k}"), k] }), include_blank: true %>
   </div>
 

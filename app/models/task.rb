@@ -16,19 +16,21 @@ class Task < ApplicationRecord
   scope :created_at_newest_first, -> { order(created_at: :desc) }
   #created_at_newest_first: 作成日時（created_at）を降順（新しい順）でソートするスコープ。
 
-
-  scope :search_title, ->(query) { where("title LIKE ?", "%#{query}%") }
-  scope :search_status, ->(query) { where(status: query) }
-
-
+  scope :search_title, ->(query) { where("title LIKE ?", "%#{query}%") if query.present? }
+  scope :search_status, ->(status) { where(status: status) if status.present?}
 
 
   scope :search, -> (search_params) do
     return all if search_params.blank?
     # search_paramsが空であれば、全てのタスクを返す。
     
-    where(title: search_params[:title], status: search_params[:status])
+    search_title(search_params[:title]).search_status(search_params[:status])
+     #
     # 指定された検索パラメータに基づいてタイトル（title）とステータス（status）でフィルタリングする。
   end
+  #scope title_like, -> (where('title LIKE ', "%#{title}%") if title.present?)
+  scope :status_is, -> (status) {where(status: :status)if status.present?}
+  scope :title_and_tatus_is, -> (title, status) {title_like(title). status_is(status)}
+
 end
 

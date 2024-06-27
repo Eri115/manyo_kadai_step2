@@ -25,5 +25,4 @@ ActiveRecord::Schema.define(version: 2024_06_25_113025) do
     t.integer "status", null: false
     t.index ["status"], name: "index_tasks_on_status"
   end
-
 end
