@@ -13,7 +13,7 @@
 
       <% if logged_in? %>
         <ul>
-          <li><%= link_to t('navigation.users_index'), users_path, id: "users-index"%></li>
+          <li><%= link_to t('navigation.users_index'), admin_users_path, id: "users-index"%></li>
           <li><%= link_to t('navigation.add_user'), new_admin_user_path, id: "add-user"%></li>
           <li><%= link_to t('navigation.tasks'), tasks_path, id: "tasks-index"%></li>
           <li><%= link_to t('navigation.new_task'), new_task_path, id: "new-task"%></li>
