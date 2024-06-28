@@ -27,7 +27,8 @@ class TasksController < ApplicationController
   def create
     #binding.irb
     @task = Task.new(task_params) 
-
+    @task.user_id = current_user.id
+    #binding.irb
     if @task.save
       redirect_to tasks_path, notice: t('.created')
     else
@@ -64,12 +65,12 @@ class TasksController < ApplicationController
 
 
   def task_params
-     params.require(:task).permit(:title, :content)
+     params.require(:task).permit(:title, :content,:deadline_on, :priority, :status)
     #binding.irb
     #Parameters {"title"=>"", "content"=>"", "deadline_on"=>"2024-06-24", "priority"=>"0", "status"=>"0"} permitted: true>
   end
   
   def search_params
-    params.fetch(:search, {}).permit(:title, :status)
+    params.fetch(:search, {}).permit(:title, :status,)
   end
 end
