@@ -10,11 +10,23 @@
   </head>
 
   <body>
-    <ul>
-     <li><%= link_to t('navigation.tasks'), tasks_path, id: "tasks-index"%></li>
-     <li><%= link_to t('navigation.new_task'), new_task_path, id: "new-task"%></li>
-     <p id="notice"><%= notice %></p>
-    </ul>
+
+      <% if logged_in? %>
+        <ul>
+          <li><%= link_to t('navigation.users_index'), users_path, id: "users-index"%></li>
+          <li><%= link_to t('navigation.add_user'), new_task_path, id: "add-user"%></li>
+          <li><%= link_to t('navigation.tasks'), tasks_path, id: "tasks-index"%></li>
+          <li><%= link_to t('navigation.new_task'), new_task_path, id: "new-task"%></li>
+          <li><%= link_to t('navigation.account_setting'), user_path(current_user.id), id: "account-setting"%></li>
+          <li><%= link_to t('navigation.sign_out'),session_path(current_user.id), method: :delete, id: "sign-out"%></li>
+          <p id="notice"><%= notice %></p>
+        </ul>
+      <% else %>
+        <ul>
+          <li><%= link_to "アカウント登録", new_user_path, id: "sign-up" %>
+          <li><%= link_to "ログイン", new_session_path, id: "sign-in"%>
+        </ul>
+      <% end %>
     <%= yield %>
   </body>
 </html>
