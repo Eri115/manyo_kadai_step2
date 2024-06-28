@@ -1,10 +1,17 @@
 class Task < ApplicationRecord
+  belongs_to :user
+ 
   validates :title, presence: true
   validates :content, presence: true
   validates :deadline_on, presence: true
   validates :priority, presence: true
   validates :status, presence: true
- 
+  validates :name, presence: true
+
+
+
+
+
   enum priority: { low: 0, medium: 1, high: 2 }
   enum status: { waiting: 0, working: 1, completed: 2 }
 
@@ -28,9 +35,18 @@ class Task < ApplicationRecord
     # search_paramsが空であれば、全てのタスクを返す。
     search_title(search_params[:title]).search_status(search_params[:status])
      
-  scope :status_is, -> (status) {where(status: :status)if status.present?}
-  scope :title_and_tatus_is, -> (title, status) {title_like(title). status_is(status)}
+    scope :status_is, -> (status) {where(status: :status)if status.present?}
+    scope :title_and_tatus_is, -> (title, status) {title_like(title). status_is(status)}
     # 指定された検索パラメータに基づいてタイトル（title）とステータス（status）でフィルタリングする。
   end
+
+  private
+
+  def validate_name_not_including_comma
+    if name&.include?(',')
+      errors.add(:name, "Name cannot include a comma")
+    end
+  end
 end
+
 

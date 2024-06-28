@@ -6,6 +6,7 @@ class TasksController < ApplicationController
     def index
       @search_params = search_params
       @tasks = Task.search(@search_params)
+      
   
       if params[:sort] == 'deadline_on'
         @tasks = @tasks.order(deadline_on: :asc)
