@@ -1,4 +1,4 @@
-<h1><%= t('users.index.title') %></h1>
+<h1><%= t('ユーザ一覧ページ') %></h1>
 
 <table>
   <thead>
@@ -18,7 +18,7 @@
         <td><%= user.admin ? 'あり' : 'なし' %></td>
         <td><%= user.tasks.count %></td>
         <td><%= link_to t('common.show'),  admin_user_path(user), class: "show-user" %></td>
-        <td><%= link_to t('common.edit'), edit_user_path(user), class: "edit-user" %></td>
+        <td><%= link_to t('common.edit'), edit_admin_user_path(user), class: "edit-user" %></td>
         <td><%= link_to t('common.destroy'), user, method: :delete, data: { confirm: t('common.confirm_destroy') }, class: "destroy-user"%>
       </tr>
     <% end %>

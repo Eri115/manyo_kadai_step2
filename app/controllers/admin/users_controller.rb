@@ -1,5 +1,5 @@
 class Admin::UsersController < ApplicationController
-  #before_acition [:current_user.admin?]
+  before_action :require_admin
 
   def index
     @users = User.all
@@ -40,9 +40,12 @@ class Admin::UsersController < ApplicationController
 
   def edit
     @user = User.find(params[:id])
+
   end
 
-
+  def require_admin
+    redirect_to root_path unless current_user.admin?
+  end
 
   private
 
@@ -51,5 +54,4 @@ class Admin::UsersController < ApplicationController
   end
 end
 
-def admin
-end
+

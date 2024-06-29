@@ -9,12 +9,15 @@ ja:
         waiting: 未着手
         working: 着手中
         completed: 完了
-      user:
-         
   activerecord:
     models:
       task: タスク
     attributes:
+      user:
+        name: 名前
+        email: メールアドレス
+        password: パスワード
+        password_confirmation: パスワード(確認)
       task:
         title: タイトル
         content: 内容
@@ -67,6 +70,13 @@ ja:
       title: タスク編集ページ
     show:
       title: タスク詳細ページ
+    create:
+      created: タスクを登録しました
+    update:
+      updated: タスクを更新しました
+    destroy:
+      destroyed: タスクを削除しました
+  users:
     create:
       created: タスクを登録しました
     update:

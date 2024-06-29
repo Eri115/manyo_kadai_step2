@@ -4,6 +4,7 @@ class TasksController < ApplicationController
 
      #created_at 列（タスクが作成された日時を表す列）を基準に降順（DESC）で並べ替えるメソッド
     def index
+      @tasks = current_user.tasks
       @search_params = search_params
       @tasks = Task.search(@search_params)
       
@@ -26,7 +27,7 @@ class TasksController < ApplicationController
 
   def create
     #binding.irb
-    @task = Task.new(task_params) 
+    @task = current_user.tasks.new(task_params)
     @task.user_id = current_user.id
     #binding.irb
     if @task.save
@@ -37,9 +38,11 @@ class TasksController < ApplicationController
   end
 
   def show
+    current_user.tasks.find(params[:id])
   end
 
   def edit
+    current_user.tasks.find(params[:id])
   end
 
   def update

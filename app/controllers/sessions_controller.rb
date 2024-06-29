@@ -12,8 +12,9 @@ class SessionsController < ApplicationController
       flash[:notice] = 'ログインしました'
       redirect_to tasks_path
     else
-      flash[:notice] = 'メールアドレスまたはパスワードに誤りがあります'
+      flash.now[:notice] = 'メールアドレスまたはパスワードに誤りがあります'
       render :new
+      #binding.irb
     end
   end
 

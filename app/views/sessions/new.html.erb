@@ -1,4 +1,7 @@
 <h1>ログインページ</h1>
+<% if flash.now[:notice] %>
+  <div class="notice"><%= flash.now[:notice] %></div>
+<% end %>
 
 <%= form_with(scope: :session, url: sessions_path, local: true) do |f| %>
   <%= f.label :メールアドレス %>
