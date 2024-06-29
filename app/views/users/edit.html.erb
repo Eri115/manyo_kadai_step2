@@ -11,17 +11,20 @@
   </div>
 <% end %>
 
-
-<%= form_with(model: @user, local: true) do |f| %>
-  <%= f.label :名前 %>
+<%= form_with(model: @user, url: user_path(@user), method: :patch, local: true) do |f| %>
+  <%= f.label :name, "名前" %>
   <%= f.text_field :name %>
-  <%= f.label :メールアドレス %>
+  
+  <%= f.label :email, "メールアドレス" %>
   <%= f.email_field :email %>
-  <%= f.label :パスワード %>
+  
+  <%= f.label :password, "パスワード" %>
   <%= f.password_field :password %>
-  <%= f.label :パスワード（確認）%>
+  
+  <%= f.label :password_confirmation, "パスワード（確認）" %>
   <%= f.password_field :password_confirmation %>
   <br>
-  <%= f.submit "更新する" , id: '	update-user'%>
- <%= link_to "戻る", user_path(@user), id: "back" %>
+  
+  <%= f.submit "更新する", id: 'update-user' %><br>
+  <%= link_to "戻る", user_path(@user), id: "back" %>
 <% end %>

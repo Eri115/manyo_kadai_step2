@@ -78,10 +78,10 @@ ja:
       destroyed: タスクを削除しました
   users:
     create:
-      created: タスクを登録しました
+      created: ユーザを登録しました
     update:
-      updated: タスクを更新しました
+      updated: ユーザを更新しました
     destroy:
-      destroyed: タスクを削除しました
+      destroyed: ユーザを削除しました
   
 

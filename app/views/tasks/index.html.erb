@@ -1,6 +1,8 @@
 
 <h1><%= t('.title') %></h1>
-
+<% if flash.now[:alert] %>
+  <div class="alert"><%= flash.now[:alert] %></div>
+<% end %>
 
 <%= form_with(url: tasks_path, method: "get", local: true) do |form| %>
   <div class="field">

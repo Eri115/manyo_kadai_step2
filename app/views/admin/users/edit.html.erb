@@ -1,4 +1,4 @@
-<h1> ユーザー編集ページ </h1>
+<h1> ユーザ編集ページ </h1>
 <% if @user.errors.any? %>
   <div id="error_explanation">
     <h2><%= pluralize(@user.errors.count, "error") %> prohibited this <%= @user.name %> from being saved:</h2>
@@ -30,17 +30,17 @@
   </div>
 
   <div class="form-group">
-    <%= f.label :password_confirmation, 'パスワード(確認)' %>
+    <%= f.label :password_confirmation, 'パスワード（確認）' %>
     <%= f.password_field :password_confirmation, class: 'form-control' %>
   </div>
 
     <div class="form-check">
+     管理者権限
     <%= f.label :admin, class: 'form-check-label' do %>
       <%= f.check_box :admin, class: 'form-check-input' %>
-      管理者権限
     <% end %>
   </div>
 
-  <%= f.submit '更新する', id: 'update-user' %>
-  <%= link_to t('common.back'), admin_users_path, id: '	back' %>
+  <%= f.submit '更新する', id: 'update-user' %><br>
+  <%= link_to t('common.back'), admin_users_path, id: 'back' %>
 <% end %>

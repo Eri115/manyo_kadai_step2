@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :correct_user, only: [:show,:update,:destroy,:edit]
+  before_action :correct_user, only: [:show,:edit,:update,:destroy,:edit]
   skip_before_action :login_required, only: [:new, :create]
 
   def index
@@ -29,7 +29,7 @@ class UsersController < ApplicationController
   end
 
   def edit
-    #@user = User.find(params[:id])
+    @user = User.find(params[:id])
   end
 
 
@@ -46,18 +46,18 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
 
     if @user.update(user_params)
-      redirect_to user_path, notice: 'アカウントを更新しました'
+      redirect_to user_path(@user), notice: 'アカウントを更新しました'
     else
       render :edit
+      #binding.irb
     end
- 
   end
 
   def destroy
     #binding.irb
     @user.destroy
-    redirect_to new_session_path
     flash[:notice] = 'タスクを削除しました'
+    redirect_to new_session_path
   end
 
 
