@@ -1,13 +1,13 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
+  before_action :authorize_user, only: [:show, :edit, :update, :destroy]
+
 
   
      #created_at 列（タスクが作成された日時を表す列）を基準に降順（DESC）で並べ替えるメソッド
-    def index
-      @tasks = current_user.tasks
+     def index
+      @tasks = current_user.tasks.order(created_at: :desc)
       @search_params = search_params
-      @tasks = Task.search(@search_params)
-      
   
       if params[:sort] == 'deadline_on'
         @tasks = @tasks.order(deadline_on: :asc)
@@ -15,9 +15,11 @@ class TasksController < ApplicationController
         @tasks = @tasks.order(priority: :desc, created_at: :desc)
       else
         @tasks = @tasks.order(created_at: :desc)
-  
-        @tasks = @tasks.page(params[:page]).per(10)
       end
+  
+      @tasks = Task.search(@search_params).merge(@tasks) if @search_params.present?
+  
+      @tasks = @tasks.page(params[:page]).per(10)
     end
 
   
@@ -75,5 +77,13 @@ class TasksController < ApplicationController
   
   def search_params
     params.fetch(:search, {}).permit(:title, :status,)
+  end
+end
+
+
+def authorize_user
+  unless current_user == @task.user
+    flash[:alert] = 'アクセス権限がありません'
+    redirect_to tasks_path
   end
 end

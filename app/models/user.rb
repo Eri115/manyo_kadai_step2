@@ -10,9 +10,16 @@ class User < ApplicationRecord
   before_validation { email.downcase! }
   #format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i }
  
-
+  before_destroy :check_if_last_admin
 
   def admin_authority
     admin ? 'あり' : 'なし'
+  end
+
+  def check_if_last_admin
+    if admin? && User.where(admin: true).count <= 1
+      errors.add(:base, "管理者が0人になるため削除できません")
+      throw :abort
+    end
   end
 end

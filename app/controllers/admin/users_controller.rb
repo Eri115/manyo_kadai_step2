@@ -35,9 +35,14 @@ class Admin::UsersController < ApplicationController
 
   def destroy
     @user = User.find(params[:id])
-    @user.destroy
-    redirect_to admin_users_url, notice: t('users.destroy.destroyed')
+    if @user.destroy
+      redirect_to admin_users_url, notice: t('users.destroy.destroyed', name: @user.name)
+    else
+      flash[:alert] = @user.errors.full_messages.join(", ")
+      redirect_to admin_users_url
+    end
   end
+
 
   def edit
     @user = User.find(params[:id])

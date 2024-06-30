@@ -13,6 +13,14 @@ class ApplicationController < ActionController::Base
     end
   end
 
+
+  def logged_in_redirect
+    if current_user
+      flash[:alert] = 'ログアウトしてください'
+      redirect_to tasks_path
+    end
+  end
+
   def require_admin
     unless current_user&.admin?
       flash[:alert] = '管理者以外アクセスできません'
