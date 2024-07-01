@@ -17,22 +17,18 @@
     <%= f.label :name, "名前" %>
     <%= f.text_field :name %>
   </div>
-
   <div class="form-group">
     <%= f.label :email, "メールアドレス" %>
     <%= f.email_field :email %>
   </div>
-
   <div class="form-group">
     <%= f.label :password, "パスワード" %>
     <%= f.password_field :password %>
   </div>
-
   <div class="form-group">
     <%= f.label :password_confirmation, "パスワード（確認）" %>
     <%= f.password_field :password_confirmation %>
   </div>
-  
   <br>
 
   <%= f.submit "更新する", id: 'update-user' %><br>

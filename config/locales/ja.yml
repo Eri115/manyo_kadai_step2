@@ -17,7 +17,7 @@ ja:
         name: 名前
         email: メールアドレス
         password: パスワード
-        password_confirmation: パスワード(確認)
+        password_confirmation: パスワード（確認）
       task:
         title: タイトル
         content: 内容

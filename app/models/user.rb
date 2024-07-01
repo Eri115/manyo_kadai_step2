@@ -4,7 +4,8 @@ class User < ApplicationRecord
 
   validates :name, presence: true, length: { maximum: 30 }
   validates :email, presence: true, length: { maximum: 255 }, uniqueness: true
-  validates :password, presence: true, length: { minimum: 6 }, if: -> { new_record? || password.present? }
+  validates :password, confirmation: true, length: { minimum: 6 }
+  #validates :password_confirmation, presence: true
   validates :admin, inclusion: { in: [true, false] }
   #validates :email, confirmation: true 
   before_validation { email.downcase! }
