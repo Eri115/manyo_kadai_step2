@@ -4,22 +4,34 @@ class User < ApplicationRecord
 
   validates :name, presence: true, length: { maximum: 30 }
   validates :email, presence: true, length: { maximum: 255 }, uniqueness: true
-  validates :password, presence: true, length: { minimum: 6 }, if: -> { new_record? || !password.nil? }
+  validates :password, presence: true, length: { minimum: 6 }, if: -> { new_record? || password.present? }
   validates :admin, inclusion: { in: [true, false] }
   #validates :email, confirmation: true 
   before_validation { email.downcase! }
   #format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i }
+
+  before_destroy :ensure_admin
+  before_update :ensure_admin_presence_on_update
  
-  before_destroy :check_if_last_admin
 
   def admin_authority
     admin ? 'あり' : 'なし'
   end
 
-  def check_if_last_admin
-    if admin? && User.where(admin: true).count <= 1
-      errors.add(:base, "管理者が0人になるため削除できません")
+  private
+
+  def ensure_admin
+    if admin? && User.where(admin: true).count == 1
+      throw :abort
+    end
+  end
+
+  def ensure_admin_presence_on_update
+    if self.admin_changed? && self.admin_was == true && User.where(admin: true).count <= 1
+      errors.add(:base, '管理者が0人になるため権限を変更できません')
       throw :abort
     end
   end
 end
+
+ 

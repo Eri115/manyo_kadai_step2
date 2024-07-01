@@ -13,7 +13,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-
   def logged_in_redirect
     if current_user
       flash[:alert] = 'ログアウトしてください'

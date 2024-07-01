@@ -25,29 +25,31 @@ class Admin::UsersController < ApplicationController
   end
 
   def update
-    @user = User.find(params[:id])
-    if @user.update(user_params)
-      redirect_to admin_users_path(@user),notice: t('users.update.updated')
+    if user_params[:admin] == 'false' && @user.admin? && User.where(admin: true).count == 1
+      flash[:alert] = t('errors.messages.last_admin')
+      redirect_to edit_admin_user_path(@user)
+    elsif @user.update(user_params)
+      redirect_to admin_users_path, notice: 'ユーザを更新しました'
     else
+      flash.now[:alert] = 'ユーザの更新に失敗しました'
       render :edit
     end
   end
 
   def destroy
-    @user = User.find(params[:id])
-    if @user.destroy
-      redirect_to admin_users_url, notice: t('users.destroy.destroyed', name: @user.name)
+    if @user.admin?
+      flash[:notice] = "管理者が0人になるため削除できません"
     else
-      flash[:alert] = @user.errors.full_messages.join(", ")
-      redirect_to admin_users_url
+      begin
+        @user.destroy
+        flash[:notice] = 'ユーザを削除しました'
+      rescue StandardError => e
+        flash[:alert] = e.message
+      end
     end
+  
+    redirect_to admin_users_path
   end
-
-
-  def edit
-    @user = User.find(params[:id])
-  end
-
 
   private
 
@@ -55,8 +57,9 @@ class Admin::UsersController < ApplicationController
     @user = User.find(params[:id])
   end
 
+
   def user_params
-    params.require(:user).permit(:name, :email, :admin, :password, :password_confirmation)
+    params.require(:user).permit(:name, :email, :password, :password_confirmation,:admin)
   end
 
 

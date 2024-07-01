@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :correct_user, only: [:show,:edit,:update,:destroy,:edit]
+  before_action :correct_user, only: [:show,:update,:destroy,:edit]
   skip_before_action :login_required, only: [:new, :create]
 
   def index
@@ -29,29 +29,34 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = User.find(params[:id])
+    #@user = User.find(params[:id])
   end
 
 
 
   def show
-    @user = User.find(params[:id])
   end
 
   #ユーザーを見つける
   #ユーザーを見つけたら、アップデートする
   #もし見つからなかったら、編集ページにリダイレクトする。
   def update
-    #binding.irb
     @user = User.find(params[:id])
 
-    if @user.update(user_params)
+    if user_params[:password].blank?
+      params_to_update = user_params.except(:password, :password_confirmation)
+    else
+      params_to_update = user_params.permit(:name, :email, :password, :password_confirmation)
+    end
+  
+    if @user.update(params_to_update)
       redirect_to user_path(@user), notice: 'アカウントを更新しました'
     else
       render :edit
-      #binding.irb
     end
   end
+  
+
 
   def destroy
     #binding.irb
@@ -63,10 +68,9 @@ class UsersController < ApplicationController
 
 
   private
-#paramsはユーザからリクエストパラメータから許可されたパラメータのみ抽出するやつ
-#セキュリティーが向上する
+
   def user_params
-    params.require(:user).permit(:title, :content, :name, :email, :password, :password_confirmation, :admin)
+    params.require(:user).permit( :name, :email, :password, :password_confirmation)
   end
 
   def correct_user
