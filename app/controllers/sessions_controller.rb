@@ -24,6 +24,7 @@ class SessionsController < ApplicationController
     redirect_to new_session_path
   end
 
+  
   private
 
   def redirect_if_logged_in

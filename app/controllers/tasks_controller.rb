@@ -28,7 +28,6 @@ class TasksController < ApplicationController
   end
 
   def create
-    #binding.irb
     @task = current_user.tasks.new(task_params)
     @task.user_id = current_user.id
     #binding.irb
@@ -47,7 +46,6 @@ class TasksController < ApplicationController
 
   def update
     if @task.update(task_params)
-      #flash[:notice] = 'Task was successfully updated.'
       redirect_to task_path(@task),notice: t('.updated')
     else
       render :edit
@@ -56,7 +54,6 @@ class TasksController < ApplicationController
 
   def destroy
     @task.destroy
-    #flash[:notice] = 'Task was successfully destroyed.'
     redirect_to tasks_path, notice: t('.destroyed')
   end
 
