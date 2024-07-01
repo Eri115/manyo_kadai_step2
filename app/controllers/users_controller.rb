@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_action :correct_user, only: [:show,:update,:destroy,:edit]
   skip_before_action :login_required, only: [:new, :create]
+  before_action :redirect_if_logged_in, only: [:new]
 
   def index
     @users = User.all
@@ -29,17 +30,11 @@ class UsersController < ApplicationController
   end
 
   def edit
-    #@user = User.find(params[:id])
   end
-
-
 
   def show
   end
 
-  #ユーザーを見つける
-  #ユーザーを見つけたら、アップデートする
-  #もし見つからなかったら、編集ページにリダイレクトする。
   def update
     @user = User.find(params[:id])
 
@@ -55,8 +50,6 @@ class UsersController < ApplicationController
       render :edit
     end
   end
-  
-
 
   def destroy
     #binding.irb
@@ -64,7 +57,6 @@ class UsersController < ApplicationController
     flash[:notice] = 'タスクを削除しました'
     redirect_to new_session_path
   end
-
 
 
   private
@@ -77,5 +69,11 @@ class UsersController < ApplicationController
     #binding.irb
     @user = User.find(params[:id])
     redirect_to current_user unless current_user?(@user)
+  end
+end
+
+def redirect_if_logged_in
+  if logged_in?
+    redirect_to tasks_path, alert: 'ログアウトしてください'
   end
 end

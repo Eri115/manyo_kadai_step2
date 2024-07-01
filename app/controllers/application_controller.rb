@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
 
   def logged_in_redirect
     if current_user
-      flash[:alert] = 'ログアウトしてください'
+      flash[:notice] = 'ログアウトしてください'
       redirect_to tasks_path
     end
   end

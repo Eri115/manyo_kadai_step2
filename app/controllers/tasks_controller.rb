@@ -1,7 +1,7 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
   before_action :authorize_user, only: [:show, :edit, :update, :destroy]
-
+  
 
   
      #created_at 列（タスクが作成された日時を表す列）を基準に降順（DESC）で並べ替えるメソッド
@@ -40,11 +40,9 @@ class TasksController < ApplicationController
   end
 
   def show
-    #current_user.tasks.find(params[:id])
   end
 
   def edit
-    #current_user.tasks.find(params[:id])
   end
 
   def update
@@ -62,28 +60,27 @@ class TasksController < ApplicationController
     redirect_to tasks_path, notice: t('.destroyed')
   end
 
+
+
   private
 
   def set_task
     @task = Task.find(params[:id])
   end
 
-
   def task_params
      params.require(:task).permit(:title, :content,:deadline_on, :priority, :status)
-    #binding.irb
     #Parameters {"title"=>"", "content"=>"", "deadline_on"=>"2024-06-24", "priority"=>"0", "status"=>"0"} permitted: true>
   end
   
   def search_params
     params.fetch(:search, {}).permit(:title, :status,)
   end
-end
 
-
-def authorize_user
-  unless current_user == @task.user
-    flash[:alert] = 'アクセス権限がありません'
-    redirect_to tasks_path
+  def authorize_user
+    unless current_user == @task.user
+      flash[:alert] = 'アクセス権限がありません'
+      redirect_to tasks_path
+    end
   end
 end
