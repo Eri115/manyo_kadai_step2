@@ -1,0 +1,13 @@
+<h1>ログインページ</h1>
+<% if flash.now[:notice] %>
+  <div class="notice"><%= flash.now[:notice] %></div>
+<% end %>
+
+<%= form_with(scope: :session, url: sessions_path, local: true) do |f| %>
+  <%= f.label :メールアドレス %>
+  <%= f.email_field :email %>  
+  <%= f.label :パスワード %>
+  <%= f.password_field :password %>
+  <br>
+  <%= f.submit "ログイン", id:"create-session"%>
+<% end %>

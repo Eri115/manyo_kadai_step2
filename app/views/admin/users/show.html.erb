@@ -1,25 +1,9 @@
-
-<h1><%= t('.title') %></h1>
-<% if flash.now[:alert] %>
-  <div class="alert"><%= flash.now[:alert] %></div>
-<% end %>
+<h1>ユーザ詳細ページ</h1>
+<p>名前: <%= @user.name %></p>
+<p>メールアドレス: <%= @user.email %></p>
+<p>管理者権限: <%= @user.admin ? 'あり' : 'なし' %></p>
 
 <%= form_with(url: tasks_path, method: "get", local: true) do |form| %>
-  <div class="field">
-    <%= form.label :status %>
-    <%= form.select :status, options_for_select(Task.statuses.keys.map { |k| [I18n.t("enums.task.status.#{k}"), k] }), include_blank: true %>
-  </div>
-
-  <div class="field">
-    <%= form.label :title %>
-    <%= form.text_field :title %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit '検索', id: 'search_task' %>
-  </div>
-<% end %>
-
 <table>
   <thead>
     <tr>
@@ -47,8 +31,8 @@
         <td><%= link_to t('common.edit'), edit_task_path(task), class: "edit-task" %></td>
         <td><%= link_to t('common.destroy'), task, method: :delete, data: { confirm: t('common.confirm_destroy') }, class: "destroy-task"%></td>
       </tr>
-    <% end %>
-  </tbody>
-</table>
-<%= paginate @tasks %>
-<%= link_to t('common.new'), new_task_path %>
+     <% end %>
+    </tbody>
+  </table>
+<% end %>
+<%= link_to "戻る", admin_users_path(@user), id: "back" %>

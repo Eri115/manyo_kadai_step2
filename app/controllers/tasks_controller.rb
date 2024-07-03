@@ -1,41 +1,25 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
+  before_action :authorize_user, only: [:show, :edit, :update, :destroy]
+  
 
-
+  
      #created_at 列（タスクが作成された日時を表す列）を基準に降順（DESC）で並べ替えるメソッド
-    def index
-      @tasks = Task.all
+     def index
+      @tasks = current_user.tasks.order(created_at: :desc)
+      @search_params = search_params
   
-      # デフォルトで作成日時で降順にソート
-      @tasks = @tasks.order(created_at: :desc) 
-
-      if params[:sort_deadline_on].present?# 終了期限でソートする場合
-         @tasks = Task.all.order(deadline_on: :asc) #＠tasksだとcreated_atとdeadline_on両方の値が考慮されている
+      if params[:sort] == 'deadline_on'
+        @tasks = @tasks.order(deadline_on: :asc)
+      elsif params[:sort_priority] == 'true'
+        @tasks = @tasks.order(priority: :desc, created_at: :desc)
+      else
+        @tasks = @tasks.order(created_at: :desc)
       end
   
-      if params[:sort_priority].present? # 優先度でソートする場合
-         @tasks = Task.all.order(priority: :desc, created_at: :desc)
-       
-      end
+      @tasks = Task.search(@search_params).merge(@tasks) if @search_params.present?
   
-      if params[:search].present? # 検索フィルターを適用する場合
-         search_params = params[:search].permit(:title, :status, :priority)
-      
-        if search_params[:title].present? #タイトルによる部分一致検索を行う
-            @tasks = @tasks.where('title LIKE ?', "%#{search_params[:title]}%")
-        end
-
-        if search_params[:status].present?  #ステータスによる完全一致検索を行う
-            @tasks = @tasks.where(status: search_params[:status])
-        end
-        
-        if search_params[:priority].present? #優先度による完全一致検索を行う
-        @tasks = @tasks.where(priority: search_params[:priority])
-        end
-      end
-      
-  
-        @tasks = @tasks.page(params[:page]).per(10)
+      @tasks = @tasks.page(params[:page]).per(10)
     end
 
   
@@ -44,9 +28,9 @@ class TasksController < ApplicationController
   end
 
   def create
+    @task = current_user.tasks.new(task_params)
+    @task.user_id = current_user.id
     #binding.irb
-    @task = Task.new(task_params) 
-
     if @task.save
       redirect_to tasks_path, notice: t('.created')
     else
@@ -62,7 +46,6 @@ class TasksController < ApplicationController
 
   def update
     if @task.update(task_params)
-      #flash[:notice] = 'Task was successfully updated.'
       redirect_to task_path(@task),notice: t('.updated')
     else
       render :edit
@@ -71,9 +54,10 @@ class TasksController < ApplicationController
 
   def destroy
     @task.destroy
-    #flash[:notice] = 'Task was successfully destroyed.'
     redirect_to tasks_path, notice: t('.destroyed')
   end
+
+
 
   private
 
@@ -81,14 +65,19 @@ class TasksController < ApplicationController
     @task = Task.find(params[:id])
   end
 
-
   def task_params
-     params.require(:task).permit(:title, :content, :deadline_on, :priority, :status,:sort_deadline_on)
-    #binding.irb
+     params.require(:task).permit(:title, :content,:deadline_on, :priority, :status)
     #Parameters {"title"=>"", "content"=>"", "deadline_on"=>"2024-06-24", "priority"=>"0", "status"=>"0"} permitted: true>
   end
   
   def search_params
-    params.fetch(:search, {}).permit(:title, :status)
+    params.fetch(:search, {}).permit(:title, :status,)
+  end
+
+  def authorize_user
+    unless current_user == @task.user
+      flash[:alert] = 'アクセス権限がありません'
+      redirect_to tasks_path
+    end
   end
 end

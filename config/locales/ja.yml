@@ -13,6 +13,11 @@ ja:
     models:
       task: タスク
     attributes:
+      user:
+        name: 名前
+        email: メールアドレス
+        password: パスワード
+        password_confirmation: パスワード（確認）
       task:
         title: タイトル
         content: 内容
@@ -21,8 +26,12 @@ ja:
         priority: 優先度
         status: ステータス
   navigation:
+    users_index: ユーザ一覧
+    add_user: ユーザを登録する
     tasks: タスク一覧
     new_task: タスクを登録する
+    account_setting: アカウント設定
+    sign_out: ログアウト
   errors:
     format: "%{attribute}%{message}"
     messages:
@@ -37,6 +46,13 @@ ja:
       create: 登録する
       update: 更新する
       search: 検索
+  users:
+    index:
+      title: "ユーザ一覧ページ"
+      name: "名前"
+      email: "メールアドレス"
+      admin_authority: "管理者権限"
+      task_lists: "タスク数"
   common:
     new: 新規作成
     show: 詳細
@@ -60,3 +76,12 @@ ja:
       updated: タスクを更新しました
     destroy:
       destroyed: タスクを削除しました
+  users:
+    create:
+      created: ユーザを登録しました
+    update:
+      updated: ユーザを更新しました
+    destroy:
+      destroyed: ユーザを削除しました
+  
+

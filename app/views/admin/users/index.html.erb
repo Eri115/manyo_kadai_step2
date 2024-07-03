@@ -1,0 +1,27 @@
+<h1><%= t('ユーザ一覧ページ') %></h1>
+
+<table>
+  <thead>
+    <tr>
+      <th><%= User.human_attribute_name("名前") %></th>
+      <th><%= User.human_attribute_name("メールアドレス") %></th>
+      <th><%= User.human_attribute_name("管理者権限") %></th>
+      <th><%= User.human_attribute_name("タスク数") %></th>
+      <th colspan="4"></th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @users.each do |user| %>
+      <tr class="user-title">
+        <td><%= user.name %></td>
+        <td><%= user.email %></td>
+        <td><%= user.admin ? 'あり' : 'なし' %></td>
+        <td><%= user.tasks.count %></td>
+        <td><%= link_to t('common.show'),  admin_user_path(user), class: "show-user" %></td>
+        <td><%= link_to t('common.edit'), edit_admin_user_path(user), class: "edit-user" %></td>
+        <td><%= link_to t('common.destroy'),admin_user_path(user), method: :delete, data: { confirm: t('common.confirm_destroy') }, class: "destroy-user"%>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
