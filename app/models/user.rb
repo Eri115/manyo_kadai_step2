@@ -5,11 +5,8 @@ class User < ApplicationRecord
   validates :name, presence: true, length: { maximum: 30 }
   validates :email, presence: true, length: { maximum: 255 }, uniqueness: true
   validates :password, confirmation: true, length: { minimum: 6 }
-  #validates :password_confirmation, presence: true
   validates :admin, inclusion: { in: [true, false] }
-  #validates :email, confirmation: true 
   before_validation { email.downcase! }
-  #format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i }
 
   before_destroy :ensure_admin
   before_update :ensure_admin_presence_on_update
@@ -19,6 +16,7 @@ class User < ApplicationRecord
     admin ? 'あり' : 'なし'
   end
 
+  
   private
 
   def ensure_admin
