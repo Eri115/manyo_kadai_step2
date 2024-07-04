@@ -1,14 +1,14 @@
 class Task < ApplicationRecord
   belongs_to :user
+  belongs_to :label, optional: true
+  has_many :task_labels, dependent: :destroy
+  has_many :labels, through: :task_labels
  
   validates :title, presence: true
   validates :content, presence: true
   validates :deadline_on, presence: true
   validates :priority, presence: true
   validates :status, presence: true
-
-
-
 
 
   enum priority: { low: 0, medium: 1, high: 2 }

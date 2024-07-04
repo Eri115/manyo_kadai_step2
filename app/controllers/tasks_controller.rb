@@ -29,7 +29,7 @@ class TasksController < ApplicationController
 
   def create
     @task = current_user.tasks.new(task_params)
-    @task.user_id = current_user.id
+    #@task.user_id = current_user.id
     #binding.irb
     if @task.save
       redirect_to tasks_path, notice: t('.created')
@@ -66,7 +66,7 @@ class TasksController < ApplicationController
   end
 
   def task_params
-     params.require(:task).permit(:title, :content,:deadline_on, :priority, :status)
+     params.require(:task).permit(:title, :content,:deadline_on, :priority, :status, label_ids: [])
     #Parameters {"title"=>"", "content"=>"", "deadline_on"=>"2024-06-24", "priority"=>"0", "status"=>"0"} permitted: true>
   end
   

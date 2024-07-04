@@ -1,3 +1,4 @@
+<!--　エラーメッセージ表記 -->
 <%= form_with(model: task, local: true) do |form| %>
   <% if task.errors.any? %>
     <div id="error_explanation">
@@ -9,38 +10,38 @@
       </ul>
     </div>
   <% end %>
- 
+
+  <!-- タスク編集投稿フォーム欄 -->
   <div class="field">
     <%= form.label :title %>
-    <br>
     <%= form.text_field :title %>
   </div>
-
   <div class="field">
     <%= form.label :content %>
-    <br>
     <%= form.text_area :content %>
   </div>
-
   <div class= "field">
     <%= form.label :deadline_on %>
-    <br>
     <%= form.date_field :deadline_on%>
   </div>
-
   <div class= "field">
     <%= form.label :priority%>
-    <br>
     <%= form.select :priority, options_for_select(Task.priorities.keys.map {|k| [I18n.t("enums.task.priority.#{k}"), k]}), include_blank: true %>
   </div>
-
   <div class= "field">
     <%= form.label :status%>
-    <br>
     <%= form.select :status, options_for_select(Task.statuses.keys.map {|k| [I18n.t("enums.task.status.#{k}"), k]}), include_blank: true %>
   </div>
-
   
+ 
+  <!-- ラベルチェックボックス欄 -->
+  <%= form.label :label_ids, 'ラベル'%>
+  <% Label.all.each do |label| %>
+    <%= form.check_box :label_ids, { multiple: true, include_hidden: false }, label[:id] %>
+    <%= label.name %>
+  <% end %>
+
+   <!-- 他のフォームフィールド -->
   <div class="actions">
     <%= form.submit id: button_id %>
   </div>

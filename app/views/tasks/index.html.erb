@@ -1,25 +1,26 @@
 
+<!--　タスク一覧ページ -->
 <h1><%= t('.title') %></h1>
 <% if flash.now[:alert] %>
   <div class="alert"><%= flash.now[:alert] %></div>
 <% end %>
 
+<!--　ステータス・タイトル・検索フォーム　-->
 <%= form_with(url: tasks_path, method: "get", local: true) do |form| %>
   <div class="field">
     <%= form.label :status %>
     <%= form.select :status, options_for_select(Task.statuses.keys.map { |k| [I18n.t("enums.task.status.#{k}"), k] }), include_blank: true %>
   </div>
-
   <div class="field">
     <%= form.label :title %>
     <%= form.text_field :title %>
   </div>
-
   <div class="actions">
     <%= form.submit '検索', id: 'search_task' %>
   </div>
 <% end %>
 
+<!--　項目　-->
 <table>
   <thead>
     <tr>
@@ -33,7 +34,7 @@
     </tr>
   </thead>
 
-
+<!--　投稿内容表示　-->
   <tbody>
     <% @tasks.each do |task| %>
       <tr class="task-title">
@@ -50,5 +51,6 @@
     <% end %>
   </tbody>
 </table>
+ <!-- 他のフォームフィールド -->
 <%= paginate @tasks %>
 <%= link_to t('common.new'), new_task_path %>
