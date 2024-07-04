@@ -1,6 +1,5 @@
 
 <!--　タスク一覧ページ -->
-<%= form_with(scope: :search, url: tasks_path, method: "get", local: true) do |form| %>
   <div class="field">
 <h1><%= t('.title') %></h1>
 <% if flash.now[:alert] %>
@@ -8,7 +7,7 @@
 <% end %>
 
 <!--　ステータス・タイトル・検索フォーム　-->
-<%#= form_with(scope: :search, url: tasks_path, method: "get", local: true) do |form| %>
+<%= form_with(scope: :search, url: tasks_path, method: "get", local: true) do |form| %>
   <div class="field">
     <%= form.label 'ステータス' %>
     <%= form.select :status, options_for_select(Task.statuses.keys.map { |k| [I18n.t("enums.task.status.#{k}"), k] }), include_blank: true %>

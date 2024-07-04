@@ -30,10 +30,6 @@ class Task < ApplicationRecord
   #scope :search_status, ->(query) { where(status: query) }
   #scope :search_label, ->(label_id) { joins(:labels).where(labels: { id: label_id }) if label_id.present? }
 
-
-  #scope :search_label, ->(label) { joins(:labels).where(labels: { id: label }) if label.present? }
-
- 
   scope :search, -> (search_params) do
     return all if search_params.blank?
     # binding.irb
@@ -45,14 +41,6 @@ class Task < ApplicationRecord
     # scope :label_is, ->(label) { joins(:label).where(labels:label) if label.present? }
     # 指定された検索パラメータに基づいてタイトル（title）とステータス（status）でフィルタリングする。
   end
-
-  private
-
-  #def validate_name_not_including_comma
-    #if name&.include?(',')
-      #errors.add(:name, "Name cannot include a comma")
-    #end
-  #end
 end
 
 
