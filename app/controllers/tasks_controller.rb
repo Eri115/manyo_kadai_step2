@@ -8,6 +8,8 @@ class TasksController < ApplicationController
     def index
       @tasks = current_user.tasks.order(created_at: :desc)
       @search_params = search_params
+      #binding.irb
+      @tasks = Task.search(@search_params).merge(@tasks) if @search_params.present?
   
       if params[:sort] == 'deadline_on'
         @tasks = @tasks.order(deadline_on: :asc)
@@ -16,8 +18,8 @@ class TasksController < ApplicationController
       else
         @tasks = @tasks.order(created_at: :desc)
       end
-      @tasks = Task.search(@search_params).merge(@tasks) if @search_params.present?
       @tasks = @tasks.page(params[:page]).per(10)
+    
     end
 
   
@@ -64,12 +66,13 @@ class TasksController < ApplicationController
   end
 
   def task_params
-     params.require(:task).permit(:title, :content,:deadline_on, :priority, :status, label_ids: [])
+    params.require(:task).permit(:title, :content, :deadline_on, :priority, :status, :label_ids [])
     #Parameters {"title"=>"", "content"=>"", "deadline_on"=>"2024-06-24", "priority"=>"0", "status"=>"0"} permitted: true>
   end
   
   def search_params
-    params.fetch(:search, {}).permit(:title, :status,:label)
+    params.fetch(:search, {}).permit(:title, :status, :label_id )#.reject { |_, v| v.blank? }
+
   end
 
   def authorize_user
