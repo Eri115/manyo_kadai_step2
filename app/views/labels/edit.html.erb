@@ -18,11 +18,6 @@
     <%= form.text_field :name, class: 'form-control' %>
   </div>
 
-  <%= form.label 'ラベル'%>
-  <% Label.all.each do |label| %>
-    <%= form.check_box :label_ids, { multiple: true, include_hidden: false }, label[:id] %>
-    <%= label.name %>
-  <% end %>
 
   <!-- 他のフォームフィールド -->
   <br>
