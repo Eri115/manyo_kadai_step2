@@ -8,12 +8,16 @@
 <!--　ステータス・タイトル・検索フォーム　-->
 <%= form_with(url: tasks_path, method: "get", local: true) do |form| %>
   <div class="field">
-    <%= form.label :status %>
+    <%= form.label 'ステータス' %>
     <%= form.select :status, options_for_select(Task.statuses.keys.map { |k| [I18n.t("enums.task.status.#{k}"), k] }), include_blank: true %>
   </div>
   <div class="field">
-    <%= form.label :title %>
+    <%= form.label 'タイトル' %>
     <%= form.text_field :title %>
+  </div>
+  <div class="field">
+  <%= form.label 'ラベル' %>
+    <%= form.select("label_id", Label.pluck(:name, :id), { include_blank: true }) %>  
   </div>
   <div class="actions">
     <%= form.submit '検索', id: 'search_task' %>

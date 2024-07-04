@@ -25,7 +25,7 @@ class LabelsController < ApplicationController
     #@label = current_user.labels.build(label_params)
     @label = Label.find(params[:id])
     if @label.update(label_params)
-      redirect_to label_path(@label), notice: 'ラベルを更新しました'
+      redirect_to labels_path, notice: 'ラベルを更新しました'
     else
       render :edit
     end

@@ -5,7 +5,7 @@ class TasksController < ApplicationController
 
   
      #created_at 列（タスクが作成された日時を表す列）を基準に降順（DESC）で並べ替えるメソッド
-     def index
+    def index
       @tasks = current_user.tasks.order(created_at: :desc)
       @search_params = search_params
   
@@ -16,9 +16,7 @@ class TasksController < ApplicationController
       else
         @tasks = @tasks.order(created_at: :desc)
       end
-  
       @tasks = Task.search(@search_params).merge(@tasks) if @search_params.present?
-  
       @tasks = @tasks.page(params[:page]).per(10)
     end
 
@@ -71,7 +69,7 @@ class TasksController < ApplicationController
   end
   
   def search_params
-    params.fetch(:search, {}).permit(:title, :status,)
+    params.fetch(:search, {}).permit(:title, :status,:label)
   end
 
   def authorize_user

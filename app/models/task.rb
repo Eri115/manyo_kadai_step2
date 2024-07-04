@@ -26,26 +26,25 @@ class Task < ApplicationRecord
   scope :search_title, ->(query) { where("title LIKE ?", "%#{query}%") }
   scope :search_status, ->(query) { where(status: query) }
 
-
-
  
   scope :search, -> (search_params) do
     return all if search_params.blank?
     # search_paramsが空であれば、全てのタスクを返す。
-    search_title(search_params[:title]).search_status(search_params[:status])
+    search_title(search_params[:title]).search_status(search_params[:status].search_label[:label])
      
     scope :status_is, -> (status) {where(status: :status)if status.present?}
     scope :title_and_tatus_is, -> (title, status) {title_like(title). status_is(status)}
+    scope :label_is, ->(label) { joins(:labels).where(labels:label) if label.present? }
     # 指定された検索パラメータに基づいてタイトル（title）とステータス（status）でフィルタリングする。
   end
 
   private
 
-  def validate_name_not_including_comma
-    if name&.include?(',')
-      errors.add(:name, "Name cannot include a comma")
-    end
-  end
+  #def validate_name_not_including_comma
+    #if name&.include?(',')
+      #errors.add(:name, "Name cannot include a comma")
+    #end
+  #end
 end
 
 
