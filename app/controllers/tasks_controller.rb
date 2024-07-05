@@ -71,7 +71,7 @@ class TasksController < ApplicationController
   end
   
   def search_params
-    params.fetch(:search, {}).permit(:title, :status, :label_id )
+    params.fetch(:search, {}).permit(:title, :status, :label )
   end
 
   def authorize_user
