@@ -47,6 +47,7 @@ class Admin::UsersController < ApplicationController
         flash[:alert] = e.message
       end
     end
+  
     redirect_to admin_users_path
   end
 
@@ -56,13 +57,15 @@ class Admin::UsersController < ApplicationController
     @user = User.find(params[:id])
   end
 
+
   def user_params
     params.require(:user).permit(:name, :email, :password, :password_confirmation,:admin)
   end
 
+
   def require_admin
-    flash.now[:alert] = '管理者以外アクセスできません'
     redirect_to tasks_path unless current_user.admin?
+    flash[:alert] = '管理者以外アクセスできません'
   end
 end
 

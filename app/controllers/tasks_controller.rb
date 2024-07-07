@@ -31,8 +31,8 @@ class TasksController < ApplicationController
     #@task.user_id = current_user.id
     #binding.irb
     if @task.save
-      redirect_to tasks_path#, notice: t('.created')
       flash[:notice] = 'タスクを登録しました'
+      redirect_to tasks_path#, notice: t('.created')
     else
       render :new
     end
@@ -46,8 +46,8 @@ class TasksController < ApplicationController
 
   def update
     if @task.update(task_params)
-      redirect_to task_path(@task)#,notice: t('.updated')
       flash[:notice] = 'タスクを更新しました'
+      redirect_to task_path(@task)#,notice: t('.updated')
     else
       render :edit
     end
@@ -55,7 +55,8 @@ class TasksController < ApplicationController
 
   def destroy
     @task.destroy
-    redirect_to tasks_path, notice: t('.destroyed')
+    flash[:alert] = 'タスクを削除しました'
+    redirect_to tasks_path#, notice: t('.destroyed')
   end
 
 
