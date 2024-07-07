@@ -5,7 +5,6 @@ RSpec.describe 'タスクモデル機能', type: :model do
     let(:user) { FactoryBot.create(:user) }
     let(:task) { FactoryBot.create(:task) }
 
-
     context 'タスクのタイトルが空文字の場合' do
       it 'バリデーションに失敗する' do
       task.title = ''

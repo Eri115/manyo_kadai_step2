@@ -11,7 +11,8 @@ class LabelsController < ApplicationController
     @label = current_user.labels.create(label_params)
     #@label = Label.new(label_params)
     if @label.save
-      redirect_to labels_path, notice:'ラベルを登録しました'
+      flash[:notice] = 'ラベルを登録しました'
+      redirect_to labels_path
     else
       render :new
     end
@@ -25,7 +26,9 @@ class LabelsController < ApplicationController
     #@label = current_user.labels.build(label_params)
     @label = Label.find(params[:id])
     if @label.update(label_params)
-      redirect_to labels_path, notice: 'ラベルを更新しました'
+      
+      redirect_to labels_path
+      flash[:notice] = 'ラベルを更新しました'
     else
       render :edit
     end
@@ -35,7 +38,8 @@ class LabelsController < ApplicationController
     @label = Label.find(params[:id])
 
     if @label.destroy
-      redirect_to labels_path, notice: 'ラベルを削除しました'
+      flash[:alert]= 'ラベルを削除しました'
+      redirect_to labels_path
     else
       #flash[:alert] = '削除に失敗しました'
       redirect_to labels_path

@@ -3,7 +3,6 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
   before_action :login_required
 
-
   unless Rails.env.development?
     rescue_from Exception,                      with: :_render_500
     rescue_from ActiveRecord::RecordNotFound,   with: :_render_404
@@ -33,11 +32,10 @@ class ApplicationController < ActionController::Base
 
   def require_admin
     unless current_user&.admin?
-      flash[:alert] = '管理者以外アクセスできません'
       redirect_to tasks_path
+      flash.now[:alert] = '管理者以外アクセスできません'
     end
   end
-
 
 
   def _render_404(e = nil)
@@ -59,8 +57,6 @@ class ApplicationController < ActionController::Base
       render "errors/500.html", status: :internal_server_error, layout: "error"
     end
   end
-
-
 end
 
 

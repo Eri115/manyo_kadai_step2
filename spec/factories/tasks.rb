@@ -47,5 +47,13 @@ FactoryBot.define do
     status { 'completed' }
     association :user
   end
+
+  factory :another_task_label, class: Task do
+    title { 'オーストラリア' }
+    content { 'オーストラリアに行く' }
+    deadline_on { '2024-07-05' } 
+    priority { 'high' } 
+    status { 'completed' }
+  end
 end
 

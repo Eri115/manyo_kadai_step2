@@ -19,7 +19,6 @@ class TasksController < ApplicationController
         @tasks = @tasks.order(created_at: :desc)
       end
       @tasks = @tasks.page(params[:page]).per(10)
-    
     end
 
   
@@ -32,7 +31,8 @@ class TasksController < ApplicationController
     #@task.user_id = current_user.id
     #binding.irb
     if @task.save
-      redirect_to tasks_path, notice: t('.created')
+      redirect_to tasks_path#, notice: t('.created')
+      flash[:notice] = 'タスクを登録しました'
     else
       render :new
     end
@@ -46,7 +46,8 @@ class TasksController < ApplicationController
 
   def update
     if @task.update(task_params)
-      redirect_to task_path(@task),notice: t('.updated')
+      redirect_to task_path(@task)#,notice: t('.updated')
+      flash[:notice] = 'タスクを更新しました'
     else
       render :edit
     end
@@ -58,7 +59,6 @@ class TasksController < ApplicationController
   end
 
 
-
   private
 
   def set_task
@@ -67,7 +67,6 @@ class TasksController < ApplicationController
 
   def task_params
     params.require(:task).permit(:title, :content, :deadline_on, :priority, :status, label_ids: [])
-    #Parameters {"title"=>"", "content"=>"", "deadline_on"=>"2024-06-24", "priority"=>"0", "status"=>"0"} permitted: true>
   end
   
   def search_params

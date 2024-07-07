@@ -10,9 +10,54 @@
       </ul>
     </div>
   <% end %>
+  
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <form class="row g-3">
+        <div class="col-md-10 form-group">
+          <%= form.label :title, 'タイトル', class: 'form-label' %>
+          <%= form.text_field :title, class: 'form-control', id: 'exampleInputEmail1', aria_describedby: 'emailHelp' %>
+        </div>
+        <div class="col-md-10 form-group">
+          <%= form.label :content, '内容', class: 'form-label' %>
+          <%= form.text_area :content, class: 'form-control', id: 'exampleFormControlTextarea1', rows: 3 %>
+        </div>
+        <div class="col-md-10 form-group">
+          <%= form.label :deadline_on, '終了期限', class: 'form-label' %>
+          <%= form.date_field :deadline_on, class: 'form-control' %>
+        </div>
+        <div class="col-md-10 form-group">
+          <%= form.label :priority, '優先度', class: 'form-label' %>
+          <%= form.select :priority, options_for_select(Task.priorities.keys.map { |k| [I18n.t("enums.task.priority.#{k}"), k] }), { include_blank: true }, { class: 'form-control' } %>
+        </div>
+        <div class="col-md-10 form-group">
+          <%= form.label :status, 'ステータス', class: 'form-label' %>
+          <%= form.select :status, options_for_select(Task.statuses.keys.map { |k| [I18n.t("enums.task.status.#{k}"), k] }), { include_blank: true }, { class: 'form-control' } %>
+        </div>
+          <%= form.label :label_ids, 'ラベル'%>
+          <% current_user.labels.each do |label| %>
+            <%= form.check_box :label_ids, { multiple: true, include_hidden: false }, label[:id] %>
+            <%= label.name %>
+          <% end %>
+          <div class="button">
+              <%= form.submit id: button_id %>
+          </div>
+          <div class="button">
+           <%= link_to "戻る", tasks_path, id: "back" %>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
 
-  <!-- タスク編集投稿フォーム欄 -->
-  <div class="field">
+
+
+
+
+
+
+<!--  <div class="field">
     <%= form.label :title %>
     <%= form.text_field :title %>
   </div>
@@ -34,16 +79,17 @@
   </div>
   
  
-  <!-- ラベルチェックボックス欄 -->
+  ラベルチェックボックス欄 
   <%= form.label :label_ids, 'ラベル'%>
   <% current_user.labels.each do |label| %>
     <%= form.check_box :label_ids, { multiple: true, include_hidden: false }, label[:id] %>
     <%= label.name %>
   <% end %>
 
-   <!-- 他のフォームフィールド -->
+   他のフォームフィールド 
   <div class="actions">
     <%= form.submit id: button_id %>
   </div>
    <%= link_to "戻る", tasks_path, id: "back" %>
 <% end %>
+-->

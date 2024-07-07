@@ -22,8 +22,8 @@ class Task < ApplicationRecord
   #created_at_newest_first: 作成日時（created_at）を降順（新しい順）でソートするスコープ。
 
 
-  scope :search_title, ->(query) { where("title LIKE ?", "%#{query}%") }
-  scope :search_status, ->(query) { where(status: query) if query.present? }
+  scope :search_title, ->(title) { where("title LIKE ?", "%#{title}%") }
+  scope :search_status, ->(status) { where(status: status) if status.present? }
   scope :search_label, ->(label) { joins(:labels).where(labels: { id: label }) if label.present? }
 
   
@@ -33,11 +33,6 @@ class Task < ApplicationRecord
     # binding.irb
     search_title(search_params[:title]).search_status(search_params[:status])
       .search_label(search_params[:label])
-     
-    # scope :status_is, -> (status) {where(status: :status)if status.present?}
-    # scope :title_and_tatus_is, -> (title, status) {title_like(title). status_is(status)}
-    # scope :label_is, ->(label) { joins(:label).where(labels:label) if label.present? }
-    # 指定された検索パラメータに基づいてタイトル（title）とステータス（status）でフィルタリングする。
   end
 end
 

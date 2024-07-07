@@ -13,6 +13,9 @@
 
  <!-- ラベル編集フォームフィールド -->
 <%= form_with(model: @label, local: true) do |form| %>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
   <div class="form-group">
     <%= form.label :name, '名前' %>
     <%= form.text_field :name, class: 'form-control' %>
@@ -22,9 +25,9 @@
   <!-- 他のフォームフィールド -->
   <br>
   <div class="actions">
-  <%= form.submit '更新する', id: 'create-user', class: 'btn btn-primary' %>
+  <%= form.submit '更新する', id: 'create-user', class: 'btn btn-info' %>
   </div>
   <div class="actions">
-  <%= link_to "戻る", labels_path, id: "back", class: 'btn btn-secondary' %>
+  <%= link_to "戻る", labels_path, id: "back" %>
   </div>
 <% end %>
