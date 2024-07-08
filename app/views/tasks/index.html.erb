@@ -9,15 +9,15 @@
     <%= form.select :status, 
                     options_for_select(Task.statuses.keys.map { |k| [I18n.t("enums.task.status.#{k}"), k] }), 
                     { include_blank: true },
-                    { class: 'form-control', id: 'specificSizeSelectStatus' } %>
+                    { class: 'form-control' } %>
   </div>
   <div class="col-md-4 form-group">
     <%= form.label :title, 'タイトル', class: 'form-label', for: 'specificSizeInputTitle' %>
-    <%= form.text_field :title, class: 'form-control', id: 'specificSizeInputTitle'%>
+    <%= form.text_field :title, class: 'form-control'%>
   </div>
   <div class="col-md-4 form-group">
     <%= form.label :label, 'ラベル', class: 'visually-hidden', for: 'specificSizeSelectLabel' %>
-    <%= form.select :label, Label.pluck(:name, :id), { include_blank: true }, { class: 'form-control', id: 'specificSizeSelectLabel' } %>
+    <%= form.select :label, Label.pluck(:name, :id), { include_blank: true }, { class: 'form-control'} %>
   </div>
   <div class="col-sm-1 offset-sm-11 ">
     <button type="submit" class="btn btn-info" id="search_task">検索</button>
