@@ -41,15 +41,12 @@
       </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
      <div class="navbar-nav ml-auto">
-
-
           <%= link_to t('navigation.tasks'), tasks_path, id: "tasks-index", class:"nav-item nav-link" %></li>
           <%= link_to t('navigation.new_task'), new_task_path, id: "new-task",class:"nav-item nav-link" %></li>
           <%= link_to t('navigation.labels'), labels_path, id: "labels-index", class:"nav-item nav-link" %></li>
           <%= link_to t('navigation.new_label'), new_label_path, id: "new-label" , class:"nav-item nav-link"%></li>
           <%= link_to t('navigation.account_setting'), user_path(current_user.id), id: "account-setting", class:"nav-item nav-link"%></li>
           <%= link_to t('navigation.sign_out'), session_path(current_user.id), method: :delete, id: "sign-out", class:"nav-item nav-link" %></li>
-
       </div>
     </div>
   </nav>
@@ -62,10 +59,11 @@
         <%= link_to "ログイン", new_session_path, id: "sign-in", class:"nav-item nav-link"%>
       </div>
     </nav>
-      
     <% end %>
 
+  <!-- フラッシュメッセージ　パーシャル -->
   <%= render 'shared/flash_messages' %>
+  
   <!-- boot strapの中央寄せ -->
    <div class="container">
      <%= yield %>

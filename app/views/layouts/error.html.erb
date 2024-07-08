@@ -9,7 +9,6 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   </head>
-
   <body>
       <% if logged_in? %>
         <% if current_user.admin? %>
@@ -41,15 +40,12 @@
       </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
      <div class="navbar-nav ml-auto">
-
-
           <%= link_to t('navigation.tasks'), tasks_path, id: "tasks-index", class:"nav-item nav-link" %></li>
-          <%= link_to t('navigation.new_task'), new_task_path, id: "new-task",class:"nav-item nav-link" %></li>
+          <%= link_to t('navigation.new_task'), new_task_path, id: "new-task", class:"nav-item nav-link" %></li>
           <%= link_to t('navigation.labels'), labels_path, id: "labels-index", class:"nav-item nav-link" %></li>
-          <%= link_to t('navigation.new_label'), new_label_path, id: "new-label" , class:"nav-item nav-link"%></li>
+          <%= link_to t('navigation.new_label'), new_label_path, id: "new-label", class:"nav-item nav-link"%></li>
           <%= link_to t('navigation.account_setting'), user_path(current_user.id), id: "account-setting", class:"nav-item nav-link"%></li>
           <%= link_to t('navigation.sign_out'), session_path(current_user.id), method: :delete, id: "sign-out", class:"nav-item nav-link" %></li>
-
       </div>
     </div>
   </nav>
@@ -62,22 +58,19 @@
         <%= link_to "ログイン", new_session_path, id: "sign-in", class:"nav-item nav-link"%>
       </div>
     </nav>
-      
     <% end %>
-
+  <!-- フラッシュメッセージパーシャル-->
   <%= render 'shared/flash_messages' %>
+
   <!-- boot strapの中央寄せ -->
    <div class="container">
      <%= yield %>
    </div>
-
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
   </body>
 </html>
-
-
   <!--フラッシュメッセージ 
     <% flash.each do |key, value| %>
       <div class="alert alert-<%= key == 'notice' ? 'info' : 'danger' %>" role="alert">

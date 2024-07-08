@@ -11,10 +11,10 @@ class TasksController < ApplicationController
       #binding.irb
       @tasks = Task.search(@search_params).merge(@tasks) if @search_params.present?
   
-      if params[:sort] == 'deadline_on'
-        @tasks = @tasks.order(deadline_on: :asc)
-      elsif params[:sort_priority] == 'true'
-        @tasks = @tasks.order(priority: :desc, created_at: :desc)
+      if params[:sort_deadline_on].present?
+        @tasks = Task.all.order(deadline_on: :asc, created_at: :desc)
+      elsif params[:sort_priority].present?
+        @tasks = Task.all.order(priority: :desc, created_at: :desc)
       else
         @tasks = @tasks.order(created_at: :desc)
       end
