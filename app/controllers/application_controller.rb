@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
 
 
 
-  unless Rails.env.development?
+    unless Rails.env.development?
     rescue_from Exception,                      with: :_render_500
     rescue_from ActiveRecord::RecordNotFound,   with: :_render_404
     rescue_from ActionController::RoutingError, with: :_render_404
@@ -40,14 +40,13 @@ class ApplicationController < ActionController::Base
   end
 
 
-
   def _render_404(e = nil)
     logger.info "Rendering 404 with excaption: #{e.message}" if e
 
     if request.format.to_sym == :json
       render json: { error: "404 Not Found" }, status: :not_found
     else
-      render "errors/404.html", status: :not_found, layout: "error"
+      render "errors/404.html.erb", status: :not_found, layout: "error"
     end
   end
 

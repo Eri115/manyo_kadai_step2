@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= yield(:title) || "Default Title" %></title>
+    <title>CdpWebManyoTask</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  </head>
+
+  <body>
+      <% if logged_in? %>
+        <% if current_user.admin? %>
+  <!--  管理者向けナビゲーションboot strapここから -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Task App</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button> 
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+     <div class="navbar-nav ml-auto">
+       <a id="users-index" class="nav-item nav-link" href="<%= admin_users_path %>">ユーザ一覧</a>
+       <a id="add-user" class="nav-item nav-link" href="<%= new_admin_user_path %>">ユーザを登録する</a>
+       <a id="tasks-index" class="nav-item nav-link" href="<%= tasks_path %>">タスク一覧</a>
+       <a id="new-task" class="nav-item nav-link" href="<%= new_task_path %>">タスクを登録する</a>
+       <a id="labels-index" class="nav-item nav-link" href="<%= labels_path %>">ラベル一覧</a>
+       <a id="new-label" class="nav-item nav-link" href="<%= new_label_path %>">ラベルを登録する</a>
+       <a id="account-setting" class="nav-item nav-link" href="<%= user_path(current_user.id) %>">アカウント設定</a>
+       <a id="sign-out" class="nav-item nav-link" href="<%= session_path(current_user.id) %>" data-method="delete">ログアウト</a>
+      </div>
+    </div>
+  </nav>
+      <% else %>
+  <!-- 一般ユーザー向けナビゲーションboot strapここから-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="#">Task App</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+     <div class="navbar-nav ml-auto">
+
+
+          <%= link_to t('navigation.tasks'), tasks_path, id: "tasks-index", class:"nav-item nav-link" %></li>
+          <%= link_to t('navigation.new_task'), new_task_path, id: "new-task",class:"nav-item nav-link" %></li>
+          <%= link_to t('navigation.labels'), labels_path, id: "labels-index", class:"nav-item nav-link" %></li>
+          <%= link_to t('navigation.new_label'), new_label_path, id: "new-label" , class:"nav-item nav-link"%></li>
+          <%= link_to t('navigation.account_setting'), user_path(current_user.id), id: "account-setting", class:"nav-item nav-link"%></li>
+          <%= link_to t('navigation.sign_out'), session_path(current_user.id), method: :delete, id: "sign-out", class:"nav-item nav-link" %></li>
+
+      </div>
+    </div>
+  </nav>
+    <% end %>
+  <% else %>
+  <!-- 未ログインユーザー向けナビゲーション -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="navbar-nav ml-auto">
+        <%= link_to "アカウント登録", new_user_path, id: "sign-up", class:"nav-item nav-link" %>
+        <%= link_to "ログイン", new_session_path, id: "sign-in", class:"nav-item nav-link"%>
+      </div>
+    </nav>
+      
+    <% end %>
+
+  <%= render 'shared/flash_messages' %>
+  <!-- boot strapの中央寄せ -->
+   <div class="container">
+     <%= yield %>
+   </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+  </body>
+</html>
+
+
+  <!--フラッシュメッセージ 
+    <% flash.each do |key, value| %>
+      <div class="alert alert-<%= key == 'notice' ? 'info' : 'danger' %>" role="alert">
+        <%= value %>
+      </div>
+    <% end %>-->
