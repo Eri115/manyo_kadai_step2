@@ -54,7 +54,7 @@ class UsersController < ApplicationController
   def destroy
     #binding.irb
     @user.destroy
-    flash[:notice] = 'タスクを削除しました'
+    flash[:alert] = 'タスクを削除しました'
     redirect_to new_session_path
   end
 

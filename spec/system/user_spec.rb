@@ -130,9 +130,7 @@ RSpec.describe 'ユーザ管理機能', type: :system do
       let!(:user) { FactoryBot.create(:user) }
       
        it 'タスク一覧画面に遷移し、「管理者以外アクセスできません」というエラーメッセージが表示される' do
-
         visit new_session_path
-      
         fill_in 'session[email]', with: user.email
         fill_in 'session[password]', with: user.password
         click_button 'ログイン'

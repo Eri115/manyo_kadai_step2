@@ -1,31 +1,33 @@
 
-<h1><%= t('.title')%></h1>
+<h1><%= t('.title') %></h1>
 
 <p>
   <strong><%= Task.human_attribute_name(:title) %>:</strong>
   <%= @task.title %>
 </p>
-
 <p>
   <strong><%= Task.human_attribute_name(:content) %>:</strong>
   <%= @task.content %>
 </p>
-
   <strong><%= Task.human_attribute_name(:created_at) %>:</strong>
   <%= @task.created_at %>
 </p>
-
   <strong><%= Task.human_attribute_name(:deadline_on) %>:</strong>
   <%= @task.deadline_on %>
 </p>
-
   <strong><%= Task.human_attribute_name(:priority) %>:</strong>
   <%= I18n.t("enums.task.priority.#{@task.priority}") %>
 </p>
-
   <strong><%= Task.human_attribute_name(:status) %>:</strong>
   <%= I18n.t("enums.task.status.#{@task.status}") %>
 </p>
+<strong><%= Task.human_attribute_name(:label) %>:</strong>
+  <% @task.labels.each do |label| %>
+    <%= label.name %></li>
+  <% end %>
+  <br>
 
 <%= link_to t('common.edit'), edit_task_path(@task), id: "edit-task"%> |
 <%= link_to t('common.back'), tasks_path, id: "back" %>
+
+

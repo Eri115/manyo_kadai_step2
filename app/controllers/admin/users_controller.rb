@@ -38,7 +38,7 @@ class Admin::UsersController < ApplicationController
 
   def destroy
     if @user.admin?
-      flash[:notice] = "管理者が0人になるため削除できません"
+      flash[:alert] = "管理者が0人になるため削除できません"
     else
       begin
         @user.destroy
@@ -63,10 +63,10 @@ class Admin::UsersController < ApplicationController
   end
 
 
-  def require_admin
-    redirect_to tasks_path unless current_user.admin?
-     flash[:alert] = '管理者以外アクセスできません'
-  end
+  #def require_admin
+    #redirect_to tasks_path unless current_user.admin?
+    #flash[:alert] = '管理者以外アクセスできません'
+  #end
 end
 
 

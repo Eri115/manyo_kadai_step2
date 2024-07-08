@@ -11,7 +11,6 @@ RSpec.describe 'タスク管理機能', type: :system do
       fill_in 'session[password]', with: user.password
       click_button 'ログイン'
     end
-
     context 'タスクを登録した場合' do
       it '登録したタスクが表示される' do
         visit tasks_path
@@ -33,7 +32,6 @@ RSpec.describe 'タスク管理機能', type: :system do
       end
     end
   end
-
   describe '一覧表示機能' do
     let!(:user) { FactoryBot.create(:user) }
     let!(:first_task) { FactoryBot.create(:first_task, user: user) }
@@ -47,15 +45,13 @@ RSpec.describe 'タスク管理機能', type: :system do
       click_button 'ログイン'
       visit tasks_path
     end
-  
     context '一覧画面に遷移した場合' do
       it '登録済みのタスク一覧が作成日時の降順で表示される' do
 
         task_titles = all('.task-title td:first-child').map(&:text)
         expect(task_titles).to eq ['third_task', 'second_task', 'first_task']
       end
-    end
-  
+    end 
     context '新たにタスクを作成した場合' do
       it '新しいタスクが一番上に表示される' do
        
@@ -70,7 +66,6 @@ RSpec.describe 'タスク管理機能', type: :system do
       end
     end
   end
-
   describe '詳細表示機能' do
     let!(:user) { FactoryBot.create(:user) }
     let!(:task) { FactoryBot.create(:task, user: user) }
@@ -82,7 +77,6 @@ RSpec.describe 'タスク管理機能', type: :system do
       click_button 'ログイン'
       visit tasks_path
     end
-
      context '任意のタスク詳細画面に遷移した場合' do
        it 'そのタスクの内容が表示される' do
         #task = FactoryBot.create(:task, user: user)
@@ -93,7 +87,6 @@ RSpec.describe 'タスク管理機能', type: :system do
        end
      end
   end
-
   describe 'ソート機能' do
     let!(:user) { FactoryBot.create(:user) }
     let!(:first_task) { FactoryBot.create(:first_task, user: user) }
@@ -107,7 +100,6 @@ RSpec.describe 'タスク管理機能', type: :system do
       click_button 'ログイン'
       visit tasks_path
     end
-
     context '「終了期限」というリンクをクリックした場合' do
       it "終了期限昇順に並び替えられたタスク一覧が表示される" do
 
@@ -117,7 +109,6 @@ RSpec.describe 'タスク管理機能', type: :system do
         expect(task_titles).to eq ['third_task', 'second_task', 'first_task']
       end
     end
-
     context '「優先度」というリンクをクリックした場合' do
       it "優先度の高い順に並び替えられたタスク一覧が表示される" do
 
@@ -128,7 +119,6 @@ RSpec.describe 'タスク管理機能', type: :system do
       end
     end
   end
-
   describe '検索機能' do
     let!(:user) { FactoryBot.create(:user) }
     let!(:task) { FactoryBot.create(:task, user: user) }
@@ -140,36 +130,53 @@ RSpec.describe 'タスク管理機能', type: :system do
       click_button 'ログイン'
       visit tasks_path
     end
-
     context 'タイトルであいまい検索をした場合' do
       it "検索ワードを含むタスクのみ表示される" do
         
-        fill_in 'title', with: '作成'
+        fill_in 'search[title]', with: '作成'
         click_button '検索'
         expect(page).to have_content '書類作成'
         expect(page).to have_content '企画書を作成する'
       end
     end
-
     context 'ステータスで検索した場合' do
       it "検索したステータスに一致するタスクのみ表示される" do
        
-        select '着手中', from: 'status'
+        select '着手中', from: 'search[status]'
         click_button '検索'
         expect(page).to have_content '書類作成'
         expect(page).to have_content '企画書を作成する'
       end
     end
-
     context 'タイトルとステータスで検索した場合' do
       it "検索ワードをタイトルに含み、かつステータスに一致するタスクのみ表示される" do
 
-        fill_in 'title', with: '作成'
-        select '着手中', from: 'status'
+        fill_in 'search[title]', with: '作成'
+        select '着手中', from: 'search[status]'
         
         expect(page).to have_content '書類作成'
         expect(page).to have_content '企画書を作成する'
-    
+      end
+    end
+  end
+  describe '検索機能' do
+    let!(:user) { FactoryBot.create(:user) }
+    let!(:label){FactoryBot.create(:label, user:user)}
+
+    before do
+      visit new_session_path
+      fill_in 'session[email]', with: user.email 
+      fill_in 'session[password]', with: user.password
+      click_button 'ログイン'
+    end
+    context 'ラベルで検索をした場合' do
+      it "そのラベルの付いたタスクがすべて表示される" do
+        visit tasks_path
+        select 'ラベル1', from: 'search[label]'
+        click_button '検索'
+        # toとnot_toのマッチャを使って表示されるものとされないものの両方を確認する
+        expect(page).to have_content 'ラベル1'
+        expect(page).not_to have_content 'タスク5'
       end
     end
   end

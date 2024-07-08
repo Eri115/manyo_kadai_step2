@@ -25,6 +25,9 @@ ja:
         deadline_on: 終了期限
         priority: 優先度
         status: ステータス
+        label: ラベル
+      label:
+        name: 名前
   navigation:
     users_index: ユーザ一覧
     add_user: ユーザを登録する
@@ -32,6 +35,8 @@ ja:
     new_task: タスクを登録する
     account_setting: アカウント設定
     sign_out: ログアウト
+    labels: ラベル一覧
+    new_label: ラベルを登録する
   errors:
     format: "%{attribute}%{message}"
     messages:

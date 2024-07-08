@@ -5,9 +5,11 @@ class TasksController < ApplicationController
 
   
      #created_at 列（タスクが作成された日時を表す列）を基準に降順（DESC）で並べ替えるメソッド
-     def index
+    def index
       @tasks = current_user.tasks.order(created_at: :desc)
       @search_params = search_params
+      #binding.irb
+      @tasks = Task.search(@search_params).merge(@tasks) if @search_params.present?
   
       if params[:sort] == 'deadline_on'
         @tasks = @tasks.order(deadline_on: :asc)
@@ -16,9 +18,6 @@ class TasksController < ApplicationController
       else
         @tasks = @tasks.order(created_at: :desc)
       end
-  
-      @tasks = Task.search(@search_params).merge(@tasks) if @search_params.present?
-  
       @tasks = @tasks.page(params[:page]).per(10)
     end
 
@@ -29,10 +28,11 @@ class TasksController < ApplicationController
 
   def create
     @task = current_user.tasks.new(task_params)
-    @task.user_id = current_user.id
+    #@task.user_id = current_user.id
     #binding.irb
     if @task.save
-      redirect_to tasks_path, notice: t('.created')
+      flash[:notice] = 'タスクを登録しました'
+      redirect_to tasks_path#, notice: t('.created')
     else
       render :new
     end
@@ -46,7 +46,8 @@ class TasksController < ApplicationController
 
   def update
     if @task.update(task_params)
-      redirect_to task_path(@task),notice: t('.updated')
+      flash[:notice] = 'タスクを更新しました'
+      redirect_to task_path(@task)#,notice: t('.updated')
     else
       render :edit
     end
@@ -54,9 +55,9 @@ class TasksController < ApplicationController
 
   def destroy
     @task.destroy
-    redirect_to tasks_path, notice: t('.destroyed')
+    flash[:alert] = 'タスクを削除しました'
+    redirect_to tasks_path#, notice: t('.destroyed')
   end
-
 
 
   private
@@ -66,12 +67,11 @@ class TasksController < ApplicationController
   end
 
   def task_params
-     params.require(:task).permit(:title, :content,:deadline_on, :priority, :status)
-    #Parameters {"title"=>"", "content"=>"", "deadline_on"=>"2024-06-24", "priority"=>"0", "status"=>"0"} permitted: true>
+    params.require(:task).permit(:title, :content, :deadline_on, :priority, :status, label_ids: [])
   end
   
   def search_params
-    params.fetch(:search, {}).permit(:title, :status,)
+    params.fetch(:search, {}).permit(:title, :status, :label )
   end
 
   def authorize_user

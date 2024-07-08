@@ -13,7 +13,7 @@ class SessionsController < ApplicationController
       flash[:notice] = 'ログインしました'
       redirect_to tasks_path
     else
-      flash.now[:notice] = 'メールアドレスまたはパスワードに誤りがあります'
+      flash.now[:alert] = 'メールアドレスまたはパスワードに誤りがあります'
       render :new
     end
   end
