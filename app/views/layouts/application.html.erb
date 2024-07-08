@@ -41,22 +41,28 @@
       </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
      <div class="navbar-nav ml-auto">
-       <a id="tasks-index" class="nav-item nav-link" href="<%= tasks_path %>">タスク一覧</a>
-       <a id="new-task" class="nav-item nav-link" href="<%= new_task_path %>">タスクを登録する</a>
-       <a id="labels-index" class="nav-item nav-link" href="<%= labels_path %>">ラベル一覧</a>
-       <a id="new-label" class="nav-item nav-link" href="<%= new_label_path %>">ラベルを登録する</a>
-       <a id="account-setting" class="nav-item nav-link" href="<%= user_path(current_user.id) %>">アカウント設定</a>
-       <a id="sign-out" class="nav-item nav-link" href="<%= session_path(current_user.id) %>" data-method="delete">ログアウト</a>
+
+
+          <%= link_to t('navigation.tasks'), tasks_path, id: "tasks-index", class:"nav-item nav-link" %></li>
+          <%= link_to t('navigation.new_task'), new_task_path, id: "new-task",class:"nav-item nav-link" %></li>
+          <%= link_to t('navigation.labels'), labels_path, id: "labels-index", class:"nav-item nav-link" %></li>
+          <%= link_to t('navigation.new_label'), new_label_path, id: "new-label" , class:"nav-item nav-link"%></li>
+          <%= link_to t('navigation.account_setting'), user_path(current_user.id), id: "account-setting", class:"nav-item nav-link"%></li>
+          <%= link_to t('navigation.sign_out'), session_path(current_user.id), method: :delete, id: "sign-out", class:"nav-item nav-link" %></li>
+
       </div>
     </div>
   </nav>
     <% end %>
   <% else %>
   <!-- 未ログインユーザー向けナビゲーション -->
-      <ul>
-        <li><h3><%= link_to "アカウント登録", new_user_path, id: "sign-up" %></h3>
-        <li><h3><%= link_to "ログイン", new_session_path, id: "sign-in"%></h3>
-      </ul>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="navbar-nav ml-auto">
+        <%= link_to "アカウント登録", new_user_path, id: "sign-up", class:"nav-item nav-link" %>
+        <%= link_to "ログイン", new_session_path, id: "sign-in", class:"nav-item nav-link"%>
+      </div>
+    </nav>
+      
     <% end %>
 
   <%= render 'shared/flash_messages' %>
